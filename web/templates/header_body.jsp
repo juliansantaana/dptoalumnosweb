@@ -16,9 +16,9 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Alumnos <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="screens/alumno/altaAlumno.jsp">Alta</a></li>
-            <li><a href="#">Baja</a></li>
-            <li><a href="screens/alumno/consultaAlumno.jsp">Consulta</a></li>
+            <li><a href="screens/alumno/formAlumno.jsp">Alta</a></li>
+            <li><a href="screens/alumno/consultaAlumno.jsp?method=modif">Modificar</a></li>
+            <li><a href="screens/alumno/consultaAlumno.jsp?method=consulta">Consulta</a></li>
           </ul>
         </li>
       </ul>
