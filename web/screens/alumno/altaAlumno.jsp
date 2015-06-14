@@ -15,7 +15,8 @@
         
         <div class="container">
         <div class="col-md-6 col-md-offset-3">  
-            <form method="post" action="ControladorAltaAlumnos" class="form-horizontal">
+            <form method="post" action="ControladorAlumno" class="form-horizontal">
+                <input type="hidden" name="method" value="alta"/>
                 <fieldset>
 
                 <!-- Form Name -->
