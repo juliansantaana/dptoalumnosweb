@@ -619,9 +619,11 @@ public final class Modelo {
         qry = "UPDATE cursos SET "
                 + "nombre = " + "'"+nombre+"' "
                 + ", prof = " + "'"+prof+"' "
-                + ", cantClases = " + "'"+cantClases+"' ";
+                + ", cantClases = " +cantClases;
         
-                qry += "WHERE codCurso = " + codCurso;
+                qry += " WHERE codCurso = " + codCurso;
+        
+                System.out.println(qry);
         
         openDBConnection();
         int q = executeUpdate(qry);
