@@ -6,10 +6,8 @@
  * and open the template in the editor.
  */
 
-import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author juliansantaana
  */
-@WebServlet(urlPatterns = {"/ControladorCurso"})
-public class ControladorCurso extends HttpServlet {
+@WebServlet(urlPatterns = {"/ControladorRecurso"})
+public class ControladorRecurso extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -55,72 +53,61 @@ public class ControladorCurso extends HttpServlet {
         int resul = 0;
         
         String method = request.getParameter("method");
-        Curso curso;
+        Recurso recurso;
         RequestDispatcher vista;
         
         switch(method){
             case "alta":
-                resul = setAltaCurso(request, m);
+                resul = setAltaRecurso(request, m);
                 if (resul == 1){
-                    mensajeTitulo = "Curso Agregado!";
-                    mensaje = "El curso ha sido agregado al sistema.";
+                    mensajeTitulo = "Recurso Agregado!";
+                    mensaje = "El recurso ha sido agregado al sistema.";
                     estado = "SUCCESS";
                 }else{
                     mensajeTitulo = "Error";
-                    mensaje = "Hubo un error al intentar agregar el curso al sistema. Intente nuevamente. ";
+                    mensaje = "Hubo un error al intentar agregar el recurso al sistema. Intente nuevamente. ";
                     estado = "ERROR";
                 }
                 break;
             
             case "baja":
-                resul = setBajaCurso(request, m);
-                if (resul == 1){
-                    mensajeTitulo = "Curso Eliminado!";
-                    mensaje = "El curso ha sido dado de baja.";
-                    estado = "SUCCESS";
-                }else{
-                    mensajeTitulo = "Error";
-                    mensaje = "Hubo un error al intentar dar de baja el curso del sistema. Intente nuevamente. ";
-                    estado = "ERROR";
-                }
                 break;
             
             case "modifAction":
-                resul = setModificarCurso(request, m);
+                resul = setModificarRecurso(request, m);
                 if (resul == 1){
-                    mensajeTitulo = "Curso Modificado!";
-                    mensaje = "El curso ha sido modificado.";
+                    mensajeTitulo = "Recurso Modificado!";
+                    mensaje = "El recurso ha sido modificado.";
                     estado = "SUCCESS";
                 }else{
                     mensajeTitulo = "Error";
-                    mensaje = "Hubo un error al intentar modificar el curso al sistema. Intente nuevamente. ";
+                    mensaje = "Hubo un error al intentar agregar el recurso al sistema. Intente nuevamente. ";
                     estado = "ERROR";
                 }
                 break;
                 
             case "modif":
-                curso = this.getCursoByNroCursoRequestParam();
+                recurso = this.getRecursoByNroRecursoRequestParam();
                 
                 request.setAttribute("formEnabled", true);
-                request.setAttribute("curso", curso);
+                request.setAttribute("recurso", recurso);
                 request.setAttribute("method", "modifAction");
 
-                vista = request.getRequestDispatcher("screens/curso/formCurso.jsp");
+                vista = request.getRequestDispatcher("screens/recurso/formRecurso.jsp");
                 vista.forward(request, response);
                 break;
             
             case "consulta":
-                curso = this.getCursoByNroCursoRequestParam();
+                recurso = this.getRecursoByNroRecursoRequestParam();
                 
                 request.setAttribute("formEnabled", false);
-                request.setAttribute("curso", curso);
+                request.setAttribute("recurso", recurso);
                 request.setAttribute("method", "consulta");
 
-                vista = request.getRequestDispatcher("screens/curso/formCurso.jsp");
+                vista = request.getRequestDispatcher("screens/recurso/formRecurso.jsp");
                 vista.forward(request, response);
                                 
                 break;
-            
         }
         
         request.setAttribute("mensajeTitulo", mensajeTitulo);
@@ -130,35 +117,36 @@ public class ControladorCurso extends HttpServlet {
         vista = request.getRequestDispatcher("screens/vistaMensaje.jsp");
         vista.forward(request, response);
     }
-    
-    private Curso getCursoByNroCursoRequestParam(){
-        String codCurso = request.getParameter("codCurso");
-        m.cargaArrayCurso();
-        return m.getCursoWithCode(codCurso);
+        
+    private Recurso getRecursoByNroRecursoRequestParam(){
+        String codRecurso = request.getParameter("codRecurso");
+        m.cargaArrayRecurso();
+        return m.getRecursoWithCode(codRecurso);
     }
     
-    
-    private int setAltaCurso(HttpServletRequest request, Modelo m){
-        String codCurso = request.getParameter("codCurso");
-        String cursoNombre = request.getParameter("cursoNombre");
-        String cursoProf = request.getParameter("cursoProf");
-        String cursoCantClases = request.getParameter("cursoCantClases");
-        return m.qryAltaCurso(codCurso, cursoNombre, cursoProf, cursoCantClases);
+    private int setAltaRecurso(HttpServletRequest request, Modelo m){
+        String codRecurso = request.getParameter("codRecurso");
+        String categoria = request.getParameter("categoria");
+        String nombre = request.getParameter("nombre");
+        String autor = request.getParameter("autor");
+        String anio = request.getParameter("anio");
+        String cant = request.getParameter("cant");
+        String foto = request.getParameter("foto");
+        
+
+        return m.qryAltaRecurso(codRecurso, nombre, anio, categoria, autor, cant);
     }
     
-    private int setModificarCurso(HttpServletRequest request, Modelo m){
-        String codCurso = request.getParameter("codCurso");
-        String cursoNombre = request.getParameter("cursoNombre");
-        String cursoProf = request.getParameter("cursoProf");
-        String cursoCantClases = request.getParameter("cursoCantClases");
-       
-        return m.qryModificarCurso(codCurso, cursoNombre, cursoProf, cursoCantClases);
-    }
-    
-    private int setBajaCurso(HttpServletRequest request, Modelo m){
-        String codCurso = request.getParameter("codCurso");
-       
-        return m.qryEliminarCurso(codCurso);
+    private int setModificarRecurso(HttpServletRequest request, Modelo m){
+        String codRecurso = request.getParameter("codRecurso");
+        String categoria = request.getParameter("categoria");
+        String nombre = request.getParameter("nombre");
+        String autor = request.getParameter("autor");
+        String anio = request.getParameter("anio");
+        String cant = request.getParameter("cant");
+        String foto = request.getParameter("foto");
+
+        return m.qryModificarRecurso(codRecurso, nombre, anio, categoria, autor, cant);
     }
 
     /**

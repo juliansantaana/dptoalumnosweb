@@ -86,6 +86,14 @@
                   </div>
                 </div>
                 </c:when>
+                <c:when test="${method eq 'baja'}">
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="saveBtn"></label>
+                  <div class="col-md-4">
+                      <a href="screens/curso/consultaCurso.jsp?method=baja" class="btn btn-primary">Eliminar</a>
+                  </div>
+                </div>
+                </c:when>
                 <c:when test="${method eq 'modifAction'}">
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="saveBtn"></label>

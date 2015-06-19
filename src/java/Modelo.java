@@ -656,6 +656,8 @@ public final class Modelo {
         qry = "DELETE FROM cursos ";
         qry += "WHERE codCurso = " + codCurso;
         
+        System.out.println(qry);
+        
         openDBConnection();
         int q = executeUpdate(qry);
         closeDBConnection();
@@ -988,6 +990,15 @@ public final class Modelo {
         for (int i = 0; i < getCantCursos(); i++){
             if (getCurso(i).getCursoCod().equals(codCurso)){
                 return getCurso(i);
+            }
+        }
+        return null;
+    }
+    
+    public Recurso getRecursoWithCode(String codRecurso){
+        for (int i = 0; i < getCantRecursos(); i++){
+            if (getRecurso(i).getCodRecurso().equals(codRecurso)){
+                return getRecurso(i);
             }
         }
         return null;

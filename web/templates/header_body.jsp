@@ -27,6 +27,15 @@
             <li><a href="screens/curso/formCurso.jsp">Alta</a></li>
             <li><a href="screens/curso/consultaCurso.jsp?method=modif">Modificar</a></li>
             <li><a href="screens/curso/consultaCurso.jsp?method=consulta">Consulta</a></li>
+            <li><a href="screens/curso/consultaCurso.jsp?method=baja">Eliminar</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Recursos <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="screens/recurso/formRecurso.jsp">Alta</a></li>
+            <li><a href="screens/recurso/consultaRecurso.jsp?method=modif">Modificar</a></li>
+            <li><a href="screens/recurso/consultaRecurso.jsp?method=consulta">Consulta</a></li>
           </ul>
         </li>
       </ul>
