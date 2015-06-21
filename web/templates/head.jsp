@@ -13,6 +13,7 @@
 
 <!-- Bootstrap -->
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/js/jquery-ui.min.css" rel="stylesheet">
 
 <style type="text/css">
     body {
