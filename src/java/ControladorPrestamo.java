@@ -58,7 +58,7 @@ public class ControladorPrestamo extends HttpServlet {
         
         switch(method){
             case "alta":
-                prestamo = setAltaPrestamo(request, m);
+                //prestamo = setAltaPrestamo(request, m);
                 if (resul == 1){
                     mensajeTitulo = "Préstamo Agregado!";
                     mensaje = "El préstamo ha sido agregado al sistema.";
@@ -74,7 +74,7 @@ public class ControladorPrestamo extends HttpServlet {
                 break;
             
             case "modifAction":
-                prestamo = setModificarPrestamo(request, m);
+                //prestamo = setModificarPrestamo(request, m);
                 if (resul == 1){
                     mensajeTitulo = "Préstamo Modificado!";
                     mensaje = "El préstamo ha sido modificado.";
@@ -87,10 +87,10 @@ public class ControladorPrestamo extends HttpServlet {
                 break;
                 
             case "modif":
-                prestamo = this.getPrestamoByNroLegajoRequestParam();
+                //prestamo = this.getPrestamoByNroLegajoRequestParam();
                 
                 request.setAttribute("formEnabled", true);
-                request.setAttribute("prestamo", prestamo);
+                //request.setAttribute("prestamo", prestamo);
                 request.setAttribute("method", "modifAction");
 
                 vista = request.getRequestDispatcher("screens/prestamo/formPrestamo.jsp");
@@ -98,10 +98,10 @@ public class ControladorPrestamo extends HttpServlet {
                 break;
             
             case "consulta":
-                prestamo = this.getPrestamoByNroLegajoRequestParam();
+                //prestamo = this.getPrestamoByNroLegajoRequestParam();
                 
                 request.setAttribute("formEnabled", false);
-                request.setAttribute("prestamo", prestamo);
+                //request.setAttribute("prestamo", prestamo);
                 request.setAttribute("method", "consulta");
 
                 vista = request.getRequestDispatcher("screens/prestamo/formPrestamo.jsp");
@@ -116,10 +116,6 @@ public class ControladorPrestamo extends HttpServlet {
         
         vista = request.getRequestDispatcher("screens/vistaMensaje.jsp");
         vista.forward(request, response);
-    }
-    
-    private Prestamo getPrestamoByNroLegajoRequestParam(){
-        
     }
     
     private int setAltaAlumno(HttpServletRequest request, Modelo m){

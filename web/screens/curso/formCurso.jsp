@@ -34,7 +34,14 @@
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="codCurso">Código de Curso</label>  
                   <div class="col-md-4">
-                      <input readonly="true" value="${curso.cursoCod}" id="codCurso" name="codCurso" type="text" placeholder="" class="form-control input-md" required="">
+                      <c:choose>
+                        <c:when test="${empty method}">
+                            <input value="${curso.cursoCod}" id="codCurso" name="codCurso" type="text" placeholder="" class="form-control input-md" required="">
+                        </c:when>
+                        <c:otherwise>
+                            <input readonly="readonly" value="${curso.cursoCod}" id="codCurso" name="codCurso" type="text" placeholder="" class="form-control input-md" required="">
+                        </c:otherwise>  
+                      </c:choose>
                   </div>
                 </div>
 

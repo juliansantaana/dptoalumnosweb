@@ -34,8 +34,14 @@
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="nroLegajo">Nro Legajo</label>  
                   <div class="col-md-4">
-                      <input <c:if test="${formEnabled eq 'false'}"> disabled="true" </c:if> value="${alumno.nroLegajo}" id="nroLegajo" name="nroLegajo" type="text" placeholder="" class="form-control input-md" required="">
-
+                      <c:choose>
+                        <c:when test="${empty method}">
+                            <input <c:if test="${formEnabled eq 'false'}"> disabled="true" </c:if> value="${alumno.nroLegajo}" id="nroLegajo" name="nroLegajo" type="text" placeholder="" class="form-control input-md" required="">
+                        </c:when>
+                        <c:otherwise>
+                            <input readonly="readonly" <c:if test="${formEnabled eq 'false'}"> disabled="true" </c:if> value="${alumno.nroLegajo}" id="nroLegajo" name="nroLegajo" type="text" placeholder="" class="form-control input-md" required="">
+                        </c:otherwise>  
+                      </c:choose>
                   </div>
                 </div>
 
