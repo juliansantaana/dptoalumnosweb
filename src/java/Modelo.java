@@ -214,6 +214,7 @@ public final class Modelo {
     
     public void cargaArrayPrestamo(){ // cargo en un array todos los registros de la tabla Prestamos.
         String qry = "SELECT * FROM prestamos";
+        System.out.println(qry);
         ResultSet rs = null;
         this.arrayPrestamos.clear(); // borro el array para despues cargarlo denuevo . 
         this.posPrestamos = 0;
@@ -999,6 +1000,16 @@ public final class Modelo {
         for (int i = 0; i < getCantRecursos(); i++){
             if (getRecurso(i).getCodRecurso().equals(codRecurso)){
                 return getRecurso(i);
+            }
+        }
+        return null;
+    }
+    
+    public Prestamo getPrestamoWithCode(String nroLegajo, String codRecurso){
+        for (int i = 0; i < getCantPrestamos(); i++){
+            if (getPrestamo(i).getCodRecurso().equals(codRecurso) && getPrestamo(i).getNroLegajo().equals(nroLegajo)){
+                System.out.println("Encuentra");
+                return getPrestamo(i);
             }
         }
         return null;

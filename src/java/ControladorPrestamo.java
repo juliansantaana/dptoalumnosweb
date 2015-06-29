@@ -98,10 +98,10 @@ public class ControladorPrestamo extends HttpServlet {
                 break;
             
             case "consulta":
-                //prestamo = this.getPrestamoByNroLegajoRequestParam();
+                prestamo = this.getPrestamoByNroLegajoRequestParam();
                 
                 request.setAttribute("formEnabled", false);
-                //request.setAttribute("prestamo", prestamo);
+                request.setAttribute("prestamo", prestamo);
                 request.setAttribute("method", "consulta");
 
                 vista = request.getRequestDispatcher("screens/prestamo/formPrestamo.jsp");
@@ -116,6 +116,16 @@ public class ControladorPrestamo extends HttpServlet {
         
         vista = request.getRequestDispatcher("screens/vistaMensaje.jsp");
         vista.forward(request, response);
+    }
+    
+    private Prestamo getPrestamoByNroLegajoRequestParam(){
+        String nroLegajo = request.getParameter("nroLegajo");
+        String codRecurso = request.getParameter("codRecurso");
+        System.out.println(nroLegajo);
+        System.out.println(codRecurso);
+        Prestamo prestamo = m.getPrestamoWithCode(nroLegajo, codRecurso);
+        
+        return prestamo;
     }
     
     private int setAltaAlumno(HttpServletRequest request, Modelo m){
