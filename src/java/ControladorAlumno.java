@@ -56,10 +56,10 @@ public class ControladorAlumno extends HttpServlet {
         String method = request.getParameter("method");
         Alumno alum;
         RequestDispatcher vista;
+        ArrayList<String> mensajes = new ArrayList<String>();
         
         switch(method){
             case "alta":
-                ArrayList<String> mensajes = new ArrayList<String>();
                 resul = setAltaAlumno(request, m, mensajes);
                 if (resul == 1){
                     mensajeTitulo = "Alumno Agregado!";
@@ -80,11 +80,15 @@ public class ControladorAlumno extends HttpServlet {
                 break;
             
             case "modifAction":
-                resul = setModificarAlumno(request, m);
+                resul = setModificarAlumno(request, m, mensajes);
                 if (resul == 1){
                     mensajeTitulo = "Alumno Modificado!";
                     mensaje = "El alumno ha sido modificado.";
                     estado = "SUCCESS";
+                }else if (resul == 2){
+                    request.setAttribute("mensajes", mensajes);
+                    vista = request.getRequestDispatcher("screens/vistaValidacion.jsp");
+                    vista.forward(request, response);
                 }else{
                     mensajeTitulo = "Error";
                     mensaje = "Hubo un error al intentar agregar el alumno al sistema. Intente nuevamente. ";
@@ -306,7 +310,7 @@ public class ControladorAlumno extends HttpServlet {
         return mensajes;
     }
     
-    private int setModificarAlumno(HttpServletRequest request, Modelo m){
+    private int setModificarAlumno(HttpServletRequest request, Modelo m, ArrayList<String> mensajes){
         String nroLegajo = request.getParameter("nroLegajo");
         String nombre = request.getParameter("nombre");
         String apellido = request.getParameter("apellido");
@@ -322,7 +326,13 @@ public class ControladorAlumno extends HttpServlet {
         String telCel = request.getParameter("telCel");
         String eMail = request.getParameter("email");
 
-        return m.qryModificarAlumno(nroLegajo, nombre, apellido, fechaNacimiento, nroDoc, calle, nroCalle, piso, dpto, codPostal, localidad, telFijo, telCel, eMail);
+        mensajes.addAll(validar(nroLegajo, nombre, apellido, fechaNacimiento, nroDoc, calle, nroCalle, piso, dpto, codPostal, localidad, telFijo, telCel, eMail));
+        
+        if (mensajes.size() > 0){
+            return 2;
+        }else{
+            return m.qryModificarAlumno(nroLegajo, nombre, apellido, fechaNacimiento, nroDoc, calle, nroCalle, piso, dpto, codPostal, localidad, telFijo, telCel, eMail);
+        }
     }
 
     /**
