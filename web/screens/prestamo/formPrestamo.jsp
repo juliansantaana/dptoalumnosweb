@@ -120,8 +120,9 @@
         <%@include file='/templates/footer_body.jsp'%>
         <script>
             $(document).ready(function(){
-                $('.datepicker').datepicker();
-                $('.datepicker').datepicker( "option", "dateFormat", "yy-mm-dd" );
+                $( ".datepicker" ).datepicker({
+                    dateFormat : 'yy-mm-dd'
+                });
             });
         </script>
     </body>

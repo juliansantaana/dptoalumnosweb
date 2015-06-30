@@ -87,10 +87,10 @@ public class ControladorPrestamo extends HttpServlet {
                 break;
                 
             case "modif":
-                //prestamo = this.getPrestamoByNroLegajoRequestParam();
+                prestamo = this.getPrestamoByNroLegajoRequestParam();
                 
                 request.setAttribute("formEnabled", true);
-                //request.setAttribute("prestamo", prestamo);
+                request.setAttribute("prestamo", prestamo);
                 request.setAttribute("method", "modifAction");
 
                 vista = request.getRequestDispatcher("screens/prestamo/formPrestamo.jsp");
@@ -105,8 +105,7 @@ public class ControladorPrestamo extends HttpServlet {
                 request.setAttribute("method", "consulta");
 
                 vista = request.getRequestDispatcher("screens/prestamo/formPrestamo.jsp");
-                vista.forward(request, response);
-                                
+                vista.forward(request, response);    
                 break;
         }
         
@@ -121,8 +120,7 @@ public class ControladorPrestamo extends HttpServlet {
     private Prestamo getPrestamoByNroLegajoRequestParam(){
         String nroLegajo = request.getParameter("nroLegajo");
         String codRecurso = request.getParameter("codRecurso");
-        System.out.println(nroLegajo);
-        System.out.println(codRecurso);
+        m.cargaArrayPrestamo();
         Prestamo prestamo = m.getPrestamoWithCode(nroLegajo, codRecurso);
         
         return prestamo;

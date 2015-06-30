@@ -105,8 +105,7 @@ public class ControladorRecurso extends HttpServlet {
                 request.setAttribute("method", "consulta");
 
                 vista = request.getRequestDispatcher("screens/recurso/formRecurso.jsp");
-                vista.forward(request, response);
-                                
+                vista.forward(request, response);       
                 break;
         }
         
