@@ -58,7 +58,7 @@ public class ControladorPrestamo extends HttpServlet {
         
         switch(method){
             case "alta":
-                //prestamo = setAltaPrestamo(request, m);
+                resul = setAltaPrestamo(request, m);
                 if (resul == 1){
                     mensajeTitulo = "Préstamo Agregado!";
                     mensaje = "El préstamo ha sido agregado al sistema.";
@@ -74,7 +74,7 @@ public class ControladorPrestamo extends HttpServlet {
                 break;
             
             case "modifAction":
-                //prestamo = setModificarPrestamo(request, m);
+                resul = setModificarPrestamo(request, m);
                 if (resul == 1){
                     mensajeTitulo = "Préstamo Modificado!";
                     mensaje = "El préstamo ha sido modificado.";
@@ -126,42 +126,24 @@ public class ControladorPrestamo extends HttpServlet {
         return prestamo;
     }
     
-    private int setAltaAlumno(HttpServletRequest request, Modelo m){
+    private int setAltaPrestamo(HttpServletRequest request, Modelo m){
         String nroLegajo = request.getParameter("nroLegajo");
-        String nombre = request.getParameter("nombre");
-        String apellido = request.getParameter("apellido");
-        String fechaNacimiento = request.getParameter("fechaNacimiento");
-        String nroDoc = request.getParameter("nroDocumento");
-        String calle = request.getParameter("calle");
-        String nroCalle = request.getParameter("nroCalle");
-        String piso = request.getParameter("piso");
-        String dpto = request.getParameter("dpto");
-        String codPostal = request.getParameter("codPostal");
-        String localidad = request.getParameter("localidad");
-        String telFijo = request.getParameter("telFijo");
-        String telCel = request.getParameter("telCel");
-        String eMail = request.getParameter("email");
-
-        return m.qryAltaAlumno(nroLegajo, nombre, apellido, fechaNacimiento, nroDoc, calle, nroCalle, piso, dpto, codPostal, localidad, telFijo, telCel, eMail);
+        String codRecurso = request.getParameter("codRecurso");
+        String fechaPrestamo = request.getParameter("fechaPrestamo");
+        String fechaPrevistaDevolucion = request.getParameter("fechaPrevistaDevolucion");
+        String fechaDevolucion = request.getParameter("fechaDevolucion");
+        
+        return m.qryAltaPrestamo(nroLegajo, codRecurso, fechaPrestamo, fechaPrevistaDevolucion, fechaDevolucion);
     }
     
-    private int setModificarAlumno(HttpServletRequest request, Modelo m){
+    private int setModificarPrestamo(HttpServletRequest request, Modelo m){
         String nroLegajo = request.getParameter("nroLegajo");
-        String nombre = request.getParameter("nombre");
-        String apellido = request.getParameter("apellido");
-        String fechaNacimiento = request.getParameter("fechaNacimiento");
-        String nroDoc = request.getParameter("nroDocumento");
-        String calle = request.getParameter("calle");
-        String nroCalle = request.getParameter("nroCalle");
-        String piso = request.getParameter("piso");
-        String dpto = request.getParameter("dpto");
-        String codPostal = request.getParameter("codPostal");
-        String localidad = request.getParameter("localidad");
-        String telFijo = request.getParameter("telFijo");
-        String telCel = request.getParameter("telCel");
-        String eMail = request.getParameter("email");
-
-        return m.qryModificarAlumno(nroLegajo, nombre, apellido, fechaNacimiento, nroDoc, calle, nroCalle, piso, dpto, codPostal, localidad, telFijo, telCel, eMail);
+        String codRecurso = request.getParameter("codRecurso");
+        String fechaPrestamo = request.getParameter("fechaPrestamo");
+        String fechaPrevistaDevolucion = request.getParameter("fechaPrevistaDevolucion");
+        String fechaDevolucion = request.getParameter("fechaDevolucion");
+        
+        return m.qryModificarPrestamo(nroLegajo, codRecurso, fechaPrestamo, fechaPrestamo, fechaDevolucion);
     }
 
     /**
