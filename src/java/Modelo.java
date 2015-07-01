@@ -1015,6 +1015,16 @@ public final class Modelo {
         return null;
     }
     
+    public Pago getPagoWithCode(String pagoNroLegajo, String pagoCodCurso){
+        for (int i = 0; i < getCantPagos(); i++){
+            if (getPago(i).getPagoNroLegajo().equals(pagoNroLegajo) && getPago(i).getPagoCodCurso().equals(pagoCodCurso)){
+                System.out.println("Encuentra");
+                return getPago(i);
+            }
+        }
+        return null;
+    }
+    
     public Pago getPago(int i) { 
         if (i < arrayPagos.size())
             return arrayPagos.get(i);

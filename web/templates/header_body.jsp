@@ -47,6 +47,14 @@
             <li><a href="screens/prestamo/consultaPrestamo.jsp?method=consulta">Consulta</a></li>
           </ul>
         </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Pagos <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="screens/pago/formPago.jsp">Alta</a></li>
+            <li><a href="screens/pago/consultaPago.jsp?method=modif">Modificar</a></li>
+            <li><a href="screens/pago/consultaPago.jsp?method=consulta">Consulta</a></li>
+          </ul>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <!--<li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>-->
