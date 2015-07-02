@@ -9,6 +9,8 @@
 import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -57,14 +59,20 @@ public class ControladorCurso extends HttpServlet {
         String method = request.getParameter("method");
         Curso curso;
         RequestDispatcher vista;
+        ArrayList<String> mensajes = new ArrayList<String>();
         
         switch(method){
             case "alta":
-                resul = setAltaCurso(request, m);
+                resul = setAltaCurso(request, m, mensajes);
+                
                 if (resul == 1){
                     mensajeTitulo = "Curso Agregado!";
                     mensaje = "El curso ha sido agregado al sistema.";
                     estado = "SUCCESS";
+                }else if (resul == 2){
+                    request.setAttribute("mensajes", mensajes);
+                    vista = request.getRequestDispatcher("screens/vistaValidacion.jsp");
+                    vista.forward(request, response);
                 }else{
                     mensajeTitulo = "Error";
                     mensaje = "Hubo un error al intentar agregar el curso al sistema. Intente nuevamente. ";
@@ -86,11 +94,16 @@ public class ControladorCurso extends HttpServlet {
                 break;
             
             case "modifAction":
-                resul = setModificarCurso(request, m);
+                resul = setModificarCurso(request, m, mensajes);
+                
                 if (resul == 1){
                     mensajeTitulo = "Curso Modificado!";
                     mensaje = "El curso ha sido modificado.";
                     estado = "SUCCESS";
+                }else if (resul == 2){
+                    request.setAttribute("mensajes", mensajes);
+                    vista = request.getRequestDispatcher("screens/vistaValidacion.jsp");
+                    vista.forward(request, response);
                 }else{
                     mensajeTitulo = "Error";
                     mensaje = "Hubo un error al intentar modificar el curso al sistema. Intente nuevamente. ";
@@ -131,6 +144,31 @@ public class ControladorCurso extends HttpServlet {
         vista.forward(request, response);
     }
     
+    // ----- funciones de validacion -----
+    public static boolean isNumeric(String str){
+        for (char c : str.toCharArray())
+        {
+            if (!Character.isDigit(c)) return false;
+        }
+        return true;
+    }
+    
+    public boolean isAlpha(String name) {
+        //return name.matches("[a-zA-Z ]+");
+        return name.matches("[a-zA-Zäáàëéèíìöóòúùñç  .]+");
+    }
+    
+    public boolean validateDate(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            sdf.parse(date);
+            return true;
+        }
+        catch(ParseException ex) {
+            return false;
+        }
+    }
+    
     private Curso getCursoByNroCursoRequestParam(){
         String codCurso = request.getParameter("codCurso");
         m.cargaArrayCurso();
@@ -138,21 +176,90 @@ public class ControladorCurso extends HttpServlet {
     }
     
     
-    private int setAltaCurso(HttpServletRequest request, Modelo m){
+    private int setAltaCurso(HttpServletRequest request, Modelo m, ArrayList<String> mensajes){
         String codCurso = request.getParameter("codCurso");
         String cursoNombre = request.getParameter("cursoNombre");
         String cursoProf = request.getParameter("cursoProf");
         String cursoCantClases = request.getParameter("cursoCantClases");
-        return m.qryAltaCurso(codCurso, cursoNombre, cursoProf, cursoCantClases);
+
+        mensajes.addAll(validar(codCurso, cursoNombre, cursoProf, cursoCantClases));
+        
+        if (mensajes.size() > 0){
+            return 2;
+        }else{
+            return m.qryAltaCurso(codCurso, cursoNombre, cursoProf, cursoCantClases);
+        }
     }
     
-    private int setModificarCurso(HttpServletRequest request, Modelo m){
+    private int setModificarCurso(HttpServletRequest request, Modelo m, ArrayList<String> mensajes){
         String codCurso = request.getParameter("codCurso");
         String cursoNombre = request.getParameter("cursoNombre");
         String cursoProf = request.getParameter("cursoProf");
         String cursoCantClases = request.getParameter("cursoCantClases");
-       
-        return m.qryModificarCurso(codCurso, cursoNombre, cursoProf, cursoCantClases);
+        
+        mensajes.addAll(validar(codCurso, cursoNombre, cursoProf, cursoCantClases));
+        
+        if (mensajes.size() > 0){
+            return 2;
+        }else{
+            return m.qryModificarCurso(codCurso, cursoNombre, cursoProf, cursoCantClases);
+        }
+    }
+
+    private ArrayList<String> validar(String codCurso, String cursoNombre, String cursoProf, String cursoCantClases){
+        
+        boolean validacion = true;
+        ArrayList<String> mensajes = new ArrayList<String>();
+
+        if(codCurso.isEmpty()){ 
+            validacion = false;
+            mensajes.add("Cod Curso : Campo Vacío.");
+        }else{
+            if(codCurso.length() > 8){
+                validacion = false;
+                mensajes.add("Cod Curso : Cant de dígitos necesarios = 4");
+            }else{
+                if(!isNumeric(codCurso)){
+                    validacion = false;
+                    mensajes.add("Cod Curso : Inserte solo dígitos numéricos.");
+                }
+            }
+        }
+        if(cursoNombre.isEmpty()){ 
+            validacion = false;
+            mensajes.add("Nombre : Campo Vacío.");
+        }else{
+            if(cursoNombre.length()> 50){
+                validacion = false;
+                mensajes.add("Nombre : Máxima cant de dígitos = 50.");
+            }
+        }
+        if(cursoProf.isEmpty()){ 
+            validacion = false;
+            mensajes.add("Profesor : Campo Vacío.");
+        }else{
+            if(cursoProf.length()> 50){
+                validacion = false;
+                mensajes.add("Profesor : Máxima cant de dígitos = 50.");
+            }else{
+                if(!isAlpha(cursoProf)){
+                    validacion = false;
+                    mensajes.add("Profesor : Ingrese solo letras.");
+                }
+            }
+        }
+        
+        if(cursoCantClases.isEmpty()){
+            mensajes.add("Cantidad de Clases : Campo Vacío.");
+        }else{
+            if (Integer.parseInt(cursoCantClases) > 32){
+                validacion = false;
+                mensajes.add("Maximo numero de clases permitido: 32");
+            }
+        }
+
+        return mensajes;
+
     }
     
     private int setBajaCurso(HttpServletRequest request, Modelo m){

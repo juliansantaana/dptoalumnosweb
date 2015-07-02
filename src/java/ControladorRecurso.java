@@ -8,6 +8,9 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -55,14 +58,20 @@ public class ControladorRecurso extends HttpServlet {
         String method = request.getParameter("method");
         Recurso recurso;
         RequestDispatcher vista;
+        ArrayList<String> mensajes = new ArrayList<String>();
         
         switch(method){
             case "alta":
-                resul = setAltaRecurso(request, m);
+                resul = setAltaRecurso(request, m, mensajes);
+
                 if (resul == 1){
                     mensajeTitulo = "Recurso Agregado!";
                     mensaje = "El recurso ha sido agregado al sistema.";
                     estado = "SUCCESS";
+                }else if (resul == 2){
+                    request.setAttribute("mensajes", mensajes);
+                    vista = request.getRequestDispatcher("screens/vistaValidacion.jsp");
+                    vista.forward(request, response);
                 }else{
                     mensajeTitulo = "Error";
                     mensaje = "Hubo un error al intentar agregar el recurso al sistema. Intente nuevamente. ";
@@ -74,11 +83,16 @@ public class ControladorRecurso extends HttpServlet {
                 break;
             
             case "modifAction":
-                resul = setModificarRecurso(request, m);
+                resul = setModificarRecurso(request, m, mensajes);
+
                 if (resul == 1){
                     mensajeTitulo = "Recurso Modificado!";
                     mensaje = "El recurso ha sido modificado.";
                     estado = "SUCCESS";
+                }else if (resul == 2){
+                    request.setAttribute("mensajes", mensajes);
+                    vista = request.getRequestDispatcher("screens/vistaValidacion.jsp");
+                    vista.forward(request, response);
                 }else{
                     mensajeTitulo = "Error";
                     mensaje = "Hubo un error al intentar agregar el recurso al sistema. Intente nuevamente. ";
@@ -116,6 +130,31 @@ public class ControladorRecurso extends HttpServlet {
         vista = request.getRequestDispatcher("screens/vistaMensaje.jsp");
         vista.forward(request, response);
     }
+
+    // ----- funciones de validacion -----
+    public static boolean isNumeric(String str){
+        for (char c : str.toCharArray())
+        {
+            if (!Character.isDigit(c)) return false;
+        }
+        return true;
+    }
+    
+    public boolean isAlpha(String name) {
+        //return name.matches("[a-zA-Z ]+");
+        return name.matches("[a-zA-Zäáàëéèíìöóòúùñç  .]+");
+    }
+    
+    public boolean validateDate(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            sdf.parse(date);
+            return true;
+        }
+        catch(ParseException ex) {
+            return false;
+        }
+    }
         
     private Recurso getRecursoByNroRecursoRequestParam(){
         String codRecurso = request.getParameter("codRecurso");
@@ -123,7 +162,7 @@ public class ControladorRecurso extends HttpServlet {
         return m.getRecursoWithCode(codRecurso);
     }
     
-    private int setAltaRecurso(HttpServletRequest request, Modelo m){
+    private int setAltaRecurso(HttpServletRequest request, Modelo m, ArrayList<String> mensajes){
         String codRecurso = request.getParameter("codRecurso");
         String categoria = request.getParameter("categoria");
         String nombre = request.getParameter("nombre");
@@ -131,12 +170,17 @@ public class ControladorRecurso extends HttpServlet {
         String anio = request.getParameter("anio");
         String cant = request.getParameter("cant");
         String foto = request.getParameter("foto");
-        
 
-        return m.qryAltaRecurso(codRecurso, nombre, anio, categoria, autor, cant);
+        mensajes.addAll(validar(codRecurso, nombre, anio, categoria, autor, cant));
+        
+        if (mensajes.size() > 0){
+            return 2;
+        }else{
+            return m.qryAltaRecurso(codRecurso, nombre, anio, categoria, autor, cant);
+        }
     }
     
-    private int setModificarRecurso(HttpServletRequest request, Modelo m){
+    private int setModificarRecurso(HttpServletRequest request, Modelo m, ArrayList<String> mensajes){
         String codRecurso = request.getParameter("codRecurso");
         String categoria = request.getParameter("categoria");
         String nombre = request.getParameter("nombre");
@@ -145,7 +189,84 @@ public class ControladorRecurso extends HttpServlet {
         String cant = request.getParameter("cant");
         String foto = request.getParameter("foto");
 
-        return m.qryModificarRecurso(codRecurso, nombre, anio, categoria, autor, cant);
+        mensajes.addAll(validar(codRecurso, nombre, anio, categoria, autor, cant));
+        
+        if (mensajes.size() > 0){
+            return 2;
+        }else{
+            return m.qryModificarRecurso(codRecurso, nombre, anio, categoria, autor, cant);
+        }
+    }
+
+    private ArrayList<String> validar(String codRecurso, String nombre, String anio, String categoria, String autor, String cant){
+        
+        boolean validacion = true;
+        ArrayList<String> mensajes = new ArrayList<String>();
+
+        if(codRecurso.isEmpty()){ 
+                validacion = false;
+                mensajes.add("Cod Recurso : Campo Vacío.");
+            }else{
+                
+            }
+            if(categoria.isEmpty()){ 
+                validacion = false;
+                mensajes.add("Categoría : Campo Vacío.");
+            }else{
+                if(categoria.length()> 50){
+                    validacion = false;
+                    mensajes.add("Categoría : Máxima cant de dígitos = 50.");
+                }else{
+                    if(!isAlpha(categoria)){
+                        validacion = false;
+                        mensajes.add("Categoría : Ingrese solo letras.");
+                    }
+                }
+            }
+            if(nombre.isEmpty()){ 
+                validacion = false;
+                mensajes.add("Nombre : Campo Vacío.");
+            }else{
+                if(nombre.length()> 50){
+                    validacion = false;
+                    mensajes.add("Nombre : Máxima cant de dígitos = 50.");
+                }
+            }
+            if(autor.isEmpty()){ 
+                validacion = false;
+                mensajes.add("Autor : Campo Vacío.");
+            }else{
+                if(autor.length()> 50){
+                    validacion = false;
+                    mensajes.add("Autor : Máxima cant de dígitos = 50.");
+                }else{
+                    if(!isAlpha(autor)){
+                        validacion = false;
+                        mensajes.add("Autor : Ingrese solo letras.");
+                    }
+                }
+            }
+            if(isAlpha(anio)){
+                validacion = false;
+                mensajes.add("Año : Ingrese solo nros.");                    
+            }else{
+                if(anio.length() > 4){
+                    validacion = false;
+                    mensajes.add("Año : Ingrese un año válido");
+                }
+            }
+            if(cant.isEmpty()){
+                validacion = false;
+                mensajes.add("Cantidad : Campo vacío.");
+            }else{
+                if(isAlpha(cant)){
+                    validacion = false;
+                    mensajes.add("Cantidad : Ingrese solo nros.");                    
+                }
+            }
+
+        return mensajes;
+
     }
 
     /**
