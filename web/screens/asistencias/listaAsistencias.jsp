@@ -24,9 +24,12 @@
                         <c:forEach items="${asistencias}" varStatus="loop" var="ast">
                             <tr>
                                 <td>${ast.nombreApellido}</td>
-                                <td><input name="asist_${ast.nroLegajo}" type="checkbox" 
-                                <c:if test="${ast.asistencia eq 1}">checked="checked"</c:if>
-                                /></td>
+                                <td>
+                                    <input type='hidden' value='0' name="asistFallback_${ast.nroLegajo}" >
+                                    <input name="asist_${ast.nroLegajo}" type="checkbox" 
+                                    <c:if test="${ast.asistencia eq 1}">checked="checked"</c:if>
+                                    />
+                                </td>
                             </tr>
                         </c:forEach>
                     </tbody>

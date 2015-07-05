@@ -125,6 +125,7 @@ public class ControladorAsistencias extends HttpServlet {
         String codCurso = request.getParameter("codCurso");
         String nroClase = request.getParameter("nroClase");
         
+        ArrayList<String> alreadyChecked = new ArrayList<String>();
         Enumeration<String> parameters =  request.getParameterNames();
         while(parameters.hasMoreElements()) {
             String paramName = parameters.nextElement();
@@ -134,6 +135,22 @@ public class ControladorAsistencias extends HttpServlet {
                 boolean asist = false;
                 asist = (asistencia.toUpperCase().equalsIgnoreCase("ON")) ? true : false;
                 m.qryUpsertAsistencia(nroLegajo, codCurso , nroClase , asist);
+                
+                alreadyChecked.add(nroLegajo);
+            }
+        }
+        
+        parameters =  request.getParameterNames();
+        while(parameters.hasMoreElements()) {
+            String paramName = parameters.nextElement();
+            if (paramName.startsWith("asistFallback_")){
+                String nroLegajo = paramName.replace("asistFallback_", "");
+                if (!alreadyChecked.contains(nroLegajo)){
+                    String asistencia = request.getParameter(paramName);
+                    boolean asist = false;
+                    asist = (asistencia.toUpperCase().equalsIgnoreCase("ON")) ? true : false;
+                    m.qryUpsertAsistencia(nroLegajo, codCurso , nroClase , asist);
+                }
             }
         }
         
