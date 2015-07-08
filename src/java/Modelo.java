@@ -876,12 +876,13 @@ public final class Modelo {
         ReportTable t;
         t = new ReportTable("");
         
-        String qry = "SELECT alumnos.nroLegajo, alumnos.Nombre, alumnos.Apellido "
+        String qry = "SELECT alumnos.nroLegajo, prestamos.codRecurso, alumnos.Nombre, alumnos.Apellido "
                 + "FROM prestamos JOIN alumnos ON prestamos.nroLegajo = alumnos.nroLegajo "
                 + "WHERE fechaDevo IS NULL or fechaDevo = ''";
         ResultSet rs = null;
         
         t.getColumns().add(new ReportTableColumn("Nro. Legajo"));
+        t.getColumns().add(new ReportTableColumn("Cod. Recurso"));
         t.getColumns().add(new ReportTableColumn("Nombre"));
         t.getColumns().add(new ReportTableColumn("Apellido"));
         
@@ -894,6 +895,7 @@ public final class Modelo {
                 r.getValues().add(rs.getString(1));
                 r.getValues().add(rs.getString(2));
                 r.getValues().add(rs.getString(3));
+                r.getValues().add(rs.getString(4));
                 
                 t.getRows().add(r);
             }
