@@ -725,7 +725,9 @@ public final class Modelo {
     }
     
     public int generateAlumnosRegularesPorCurso(Integer codCurso){
-        String qry = "SELECT alumnos.nroLegajo, alumnos.nombre, alumnos.apellido FROM alumnos where nroLegajo NOT IN "
+        String qry = "SELECT alumnos.nroLegajo, alumnos.nombre, alumnos.apellido FROM alumnos"
+                + " INNER JOIN rel_alumnos_cursos ON rel_alumnos_cursos.nroLegajo = alumnos.nroLegajo AND rel_alumnos_cursos.codCurso = " + codCurso.toString()
+                + " where alumnos.nroLegajo NOT IN "
                 + "(SELECT alumnos.nroLegajo FROM alumnos" +
         " INNER JOIN rel_alumnos_cursos ON rel_alumnos_cursos.nroLegajo = alumnos.nroLegajo AND rel_alumnos_cursos.codCurso = " + codCurso.toString() +
         " LEFT JOIN asistencias ON asistencias.nroLegajo = rel_alumnos_cursos.nroLegajo AND asistencias.codCurso = rel_alumnos_cursos.codCurso" +
@@ -776,6 +778,55 @@ public final class Modelo {
         return 1;
     }
     
+    public ReportTable generateAlumnosRegularesPorCursoReportTable(Integer codCurso){
+        ReportTable t;
+        t = new ReportTable("");
+        
+        String qry = "SELECT alumnos.nroLegajo, alumnos.nombre, alumnos.apellido FROM alumnos"
+                + " INNER JOIN rel_alumnos_cursos ON rel_alumnos_cursos.nroLegajo = alumnos.nroLegajo AND rel_alumnos_cursos.codCurso = " + codCurso.toString()
+                + " where alumnos.nroLegajo NOT IN "
+                + "(SELECT alumnos.nroLegajo FROM alumnos" +
+        " INNER JOIN rel_alumnos_cursos ON rel_alumnos_cursos.nroLegajo = alumnos.nroLegajo AND rel_alumnos_cursos.codCurso = " + codCurso.toString() +
+        " LEFT JOIN asistencias ON asistencias.nroLegajo = rel_alumnos_cursos.nroLegajo AND asistencias.codCurso = rel_alumnos_cursos.codCurso" +
+        " WHERE asistencias.asistencia = 0"+
+        " GROUP BY alumnos.nroLegajo"+
+        " HAVING COUNT(*) > ((SELECT cantClases FROM cursos WHERE cursos.codCurso = " + codCurso.toString() + ") - "
+                + "(((SELECT cantClases FROM cursos WHERE cursos.codCurso = "+ codCurso.toString() +") * " + "(SELECT valor FROM config WHERE config = 'PORCENTAJE_REGULARIDAD' LIMIT 1)" + ") / 100)))";
+        
+        ResultSet rs = null;
+        
+        t.getColumns().add(new ReportTableColumn("Nro. Legajo"));
+        t.getColumns().add(new ReportTableColumn("Nombre"));
+        t.getColumns().add(new ReportTableColumn("Apellido"));
+        
+        this.openDBConnection();
+        try {
+            rs = this.executeQuery(qry);
+            while (rs.next()) {
+                ReportTableRow r;
+                r = new ReportTableRow();
+                r.getValues().add(rs.getString(1));
+                r.getValues().add(rs.getString(2));
+                r.getValues().add(rs.getString(3));
+                
+                t.getRows().add(r);
+               
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.closeDBConnection();
+        return t;
+    }
+    
     public int generatePrestamosNoDevueltos(){
         String qry = "SELECT alumnos.nroLegajo, alumnos.Nombre, alumnos.Apellido "
                 + "FROM prestamos JOIN alumnos ON prestamos.nroLegajo = alumnos.nroLegajo "
@@ -819,6 +870,46 @@ public final class Modelo {
         writer.close();
         this.closeDBConnection();
         return 1;
+    }
+    
+    public ReportTable generatePrestamosNoDevueltosReportTable(){
+        ReportTable t;
+        t = new ReportTable("");
+        
+        String qry = "SELECT alumnos.nroLegajo, alumnos.Nombre, alumnos.Apellido "
+                + "FROM prestamos JOIN alumnos ON prestamos.nroLegajo = alumnos.nroLegajo "
+                + "WHERE fechaDevo IS NULL or fechaDevo = ''";
+        ResultSet rs = null;
+        
+        t.getColumns().add(new ReportTableColumn("Nro. Legajo"));
+        t.getColumns().add(new ReportTableColumn("Nombre"));
+        t.getColumns().add(new ReportTableColumn("Apellido"));
+        
+        this.openDBConnection();
+        try {
+            rs = this.executeQuery(qry);
+            while (rs.next()) {
+                ReportTableRow r;
+                r = new ReportTableRow();
+                r.getValues().add(rs.getString(1));
+                r.getValues().add(rs.getString(2));
+                r.getValues().add(rs.getString(3));
+                
+                t.getRows().add(r);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.closeDBConnection();
+        return t;
     }
     
     public int generatePrestamosPorAlumno(int nroLegajo){
