@@ -57,6 +57,18 @@ public class ControladorReportes extends HttpServlet {
                     title = "Alumnos con Préstamos No Devueltos";
                     tables.add(m.generatePrestamosNoDevueltosReportTable());
                     break;
+                
+                case "PRESTPORALUMNO":
+                    title = "Préstamos del Alumno";
+                    tables.add(m.generatePrestamosPorAlumnos(Integer.parseInt(request.getParameter("nroLegajo"))));
+                    break;
+                
+                case "PAGOSPORMES":
+                    title = "Pagos por mes";
+                    int mes = Integer.parseInt(request.getParameter("mes"));
+                    int año = Integer.parseInt(request.getParameter("año"));
+                    tables.add(m.generatePagosPorMes(mes, año));
+                    break;
             }
             
         }catch(Exception ex){

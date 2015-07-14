@@ -59,6 +59,8 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reportes <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="screens/reporte/formRegPorCurso.jsp">Alumnos Regulares por Curso</a></li>
+            <li><a href="screens/reporte/formPrestPorAlumno.jsp">Préstamos por Alumno</a></li>
+            <li><a href="screens/reporte/formPagoPorMes.jsp">Pagos por Mes</a></li>
             <li><a href="ControladorReportes?report=alumPrestNoDev">Alumnos con Préstamos No Devueltos</a></li>
           </ul>
         </li>

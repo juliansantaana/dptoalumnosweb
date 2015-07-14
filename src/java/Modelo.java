@@ -914,6 +914,109 @@ public final class Modelo {
         return t;
     }
     
+    public ReportTable generatePagosPorMes(int monthNumber, int yearNumber){
+        ReportTable t;
+        t = new ReportTable("");
+
+        String qry = "SELECT alumnos.nroLegajo, alumnos.Nombre, alumnos.Apellido, "
+                + " cursos.codCurso, cursos.Nombre, pagos.fecha, pagos.importe, pagos.comprobante "
+                + "FROM pagos JOIN alumnos ON alumnos.nroLegajo = pagos.nroLegajo "
+                + "JOIN cursos ON cursos.codCurso = pagos.codCurso "
+                + " WHERE MONTH(pagos.fecha) = " + monthNumber + " AND "
+                + " YEAR(pagos.fecha) = " + yearNumber;
+
+        ResultSet rs = null;
+
+        t.getColumns().add(new ReportTableColumn("Nro. Legajo"));
+        t.getColumns().add(new ReportTableColumn("Nombre"));
+        t.getColumns().add(new ReportTableColumn("Apellido"));
+        t.getColumns().add(new ReportTableColumn("Código de Curso"));
+        t.getColumns().add(new ReportTableColumn("Fecha"));
+        t.getColumns().add(new ReportTableColumn("Importe"));
+        t.getColumns().add(new ReportTableColumn("Comprobante"));
+
+        this.openDBConnection();
+        try {
+            rs = this.executeQuery(qry);
+            while (rs.next()) {
+                ReportTableRow r;
+                r = new ReportTableRow();
+                r.getValues().add(rs.getString(1));
+                r.getValues().add(rs.getString(2));
+                r.getValues().add(rs.getString(3));
+                r.getValues().add(rs.getString(4));
+                r.getValues().add(rs.getString(5));
+                r.getValues().add(rs.getString(6));
+                r.getValues().add(rs.getString(7));
+
+                t.getRows().add(r);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        this.closeDBConnection();
+        return t;
+    }
+    
+    public ReportTable generatePrestamosPorAlumnos(int nroLegajo){
+    ReportTable t;
+    t = new ReportTable("");
+    
+    String qry = "SELECT alumnos.nroLegajo, alumnos.Nombre, alumnos.Apellido, prestamos.codRecurso, prestamos.fechaPres"
+                + ", prestamos.fechaPrevDevo, prestamos.fechaDevo "
+                + " FROM prestamos JOIN alumnos ON prestamos.nroLegajo = alumnos.nroLegajo";
+
+    if (nroLegajo != -1) qry += " WHERE alumnos.nroLegajo = " + nroLegajo;
+
+    ResultSet rs = null;
+    
+    t.getColumns().add(new ReportTableColumn("Nro. Legajo"));
+    t.getColumns().add(new ReportTableColumn("Nombre"));
+    t.getColumns().add(new ReportTableColumn("Apellido"));
+    t.getColumns().add(new ReportTableColumn("Código de Curso"));
+    t.getColumns().add(new ReportTableColumn("Fecha de Préstamo"));
+    t.getColumns().add(new ReportTableColumn("Fecha Prevista de Devolución"));
+    t.getColumns().add(new ReportTableColumn("Fecha de Devolución"));
+    
+    this.openDBConnection();
+    try {
+        rs = this.executeQuery(qry);
+        while (rs.next()) {
+            ReportTableRow r;
+            r = new ReportTableRow();
+            r.getValues().add(rs.getString(1));
+            r.getValues().add(rs.getString(2));
+            r.getValues().add(rs.getString(3));
+            r.getValues().add(rs.getString(4));
+            r.getValues().add(rs.getString(5));
+            r.getValues().add(rs.getString(6));
+            r.getValues().add(rs.getString(7));
+            
+            t.getRows().add(r);
+        }
+    } catch (Exception ex) {
+        Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    try {
+        if (rs != null) {
+            rs.close();
+        }
+    } catch (Exception ex) {
+        Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+    this.closeDBConnection();
+    return t;
+}
+    
     public int generatePrestamosPorAlumno(int nroLegajo){
         String qry = "SELECT alumnos.nroLegajo, alumnos.Nombre, alumnos.Apellido, prestamos.codRecurso, prestamos.fechaPres"
                 + ", prestamos.fechaPrevDevo, prestamos.fechaDevo "
@@ -974,7 +1077,8 @@ public final class Modelo {
         this.closeDBConnection();
         return 1;
     }
-    
+
+/*
     public int generatePagosPorMes(int monthNumber, int yearNumber){
         String qry = "SELECT alumnos.nroLegajo, alumnos.Nombre, alumnos.Apellido, "
                 + " cursos.codCurso, cursos.Nombre, pagos.fecha, pagos.importe, pagos.comprobante "
@@ -1027,6 +1131,7 @@ public final class Modelo {
         this.closeDBConnection();
         return 1;
     }
+*/
     
     public ArrayList<String> getAlumnosCurso(String codCurso){ //calcula cuantas clases tiene cargadas asistencia un curso
         String qry;

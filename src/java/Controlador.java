@@ -1045,8 +1045,8 @@ public class Controlador {
             if (ynumber == null) return;
             int yearnumber = Integer.parseInt(ynumber);
             
-            int response = m.generatePagosPorMes(monthnumber, yearnumber);
-            if (response == 1) v.showSuccessMsg("El listado ha sido generado."); 
+            //int response = m.generatePagosPorMes(monthnumber, yearnumber);
+            //if (response == 1) v.showSuccessMsg("El listado ha sido generado."); 
         }
     }
 
