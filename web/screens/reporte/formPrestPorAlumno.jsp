@@ -16,25 +16,17 @@
         <div class="container">
             <div class="col-md-4 col-md-offset-4">  
                 <form method="get" action="ControladorReportes" class="form-horizontal">
-                    <input type="hidden" name="report" value="PAGOSPORMES"/>
+                    <input type="hidden" name="report" value="PRESTPORALUMNO"/>
                     <fieldset>
 
                     <!-- Form Name -->
-                    <legend>Pago por Mes </legend>
+                    <legend>Prestamos por alumno</legend>
 
                     <!-- Text input-->
                     <div class="form-group">
-                      <label class="col-md-4 control-label" for="mes">Mes</label>  
+                      <label class="col-md-4 control-label" for="mes">Nro Legajo</label>  
                       <div class="col-md-4">
-                      <input id="codCurso" name="mes" type="text" placeholder="" class="form-control input-md" required="">
-
-                      </div>
-                    </div>
-                    
-                    <div class="form-group">
-                      <label class="col-md-4 control-label" for="año">Año</label>  
-                      <div class="col-md-4">
-                      <input id="codCurso" name="año" type="text" placeholder="" class="form-control input-md" required="">
+                      <input id="nroLegajo" name="nroLegajo" type="text" placeholder="" class="form-control input-md" required="">
 
                       </div>
                     </div>

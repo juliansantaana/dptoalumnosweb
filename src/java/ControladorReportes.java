@@ -66,8 +66,8 @@ public class ControladorReportes extends HttpServlet {
                 case "PAGOSPORMES":
                     title = "Pagos por mes";
                     int mes = Integer.parseInt(request.getParameter("mes"));
-                    int año = Integer.parseInt(request.getParameter("año"));
-                    tables.add(m.generatePagosPorMes(mes, año));
+                    int anio = Integer.parseInt(request.getParameter("anio"));
+                    tables.add(m.generatePagosPorMes(mes, anio));
                     break;
             }
             

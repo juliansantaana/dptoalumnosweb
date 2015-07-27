@@ -33,9 +33,9 @@
                     
                     <!-- Text input-->
                     <div class="form-group">
-                      <label class="col-md-4 control-label" for="año">Año</label>  
+                      <label class="col-md-4 control-label" for="anio">Año</label>  
                       <div class="col-md-4">
-                      <input id="codCurso" name="año" type="text" placeholder="" class="form-control input-md" required="">
+                      <input id="anio" name="anio" type="text" placeholder="" class="form-control input-md" required="">
 
                       </div>
                     </div>
