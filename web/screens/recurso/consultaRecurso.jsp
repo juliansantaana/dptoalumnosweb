@@ -12,6 +12,7 @@
     </head>
     <body>
         <%@include file='/templates/header_body.jsp'%>
+        <%@page import="school.Modelo" %>
         
         <div class="container">
             <div class="col-md-4 col-md-offset-4">  
@@ -24,10 +25,22 @@
 
                     <!-- Text input-->
                     <div class="form-group">
-                      <label class="col-md-4 control-label" for="codRecurso">Código de Recurso</label>  
-                      <div class="col-md-4">
-                      <input id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md" required="">
-
+                      <label class="col-md-6 control-label" for="codRecurso">Código de Recurso</label>  
+                      <div class="col-md-6">
+                      <!--<input id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md" required="">-->
+                      <select name="codRecurso" id="codRecurso" class="form-control" required="">
+<%   
+    Modelo m = new Modelo();
+    m.cargaArrayRecurso();
+    
+    for (int i=0; i< m.getCantRecursos(); i++){
+%>
+<option value="<%= m.getRecurso(i).getCodRecurso() %>"><%= m.getRecurso(i).getNombre() %></option>
+<%
+}
+%>
+    
+                      </select>
                       </div>
                     </div>
 

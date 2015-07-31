@@ -1,4 +1,6 @@
- 
+package school;
+
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author juliansantaana
  */
-@WebServlet(urlPatterns = {"/ControladorPrestamo"})
-public class ControladorPrestamo extends HttpServlet {
+@WebServlet(urlPatterns = {"/ControladorPago"})
+public class ControladorPago extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -56,16 +58,16 @@ public class ControladorPrestamo extends HttpServlet {
         int resul = 0;
         
         String method = request.getParameter("method");
-        Prestamo prestamo;
+        Pago pago;
         RequestDispatcher vista;
         ArrayList<String> mensajes = new ArrayList<String>();
         
         switch(method){
             case "alta":
-                resul = setAltaPrestamo(request, m, mensajes);
+                resul = setAltaPago(request, m, mensajes);
                 if (resul == 1){
-                    mensajeTitulo = "Préstamo Agregado!";
-                    mensaje = "El préstamo ha sido agregado al sistema.";
+                    mensajeTitulo = "Pago Agregado!";
+                    mensaje = "El pago ha sido agregado al sistema.";
                     estado = "SUCCESS";
                 }else if (resul == 2){
                     request.setAttribute("mensajes", mensajes);
@@ -73,7 +75,7 @@ public class ControladorPrestamo extends HttpServlet {
                     vista.forward(request, response);
                 }else{
                     mensajeTitulo = "Error";
-                    mensaje = "Hubo un error al intentar agregar el préstamo al sistema. Intente nuevamente. ";
+                    mensaje = "Hubo un error al intentar agregar el pago al sistema. Intente nuevamente. ";
                     estado = "ERROR";
                 }
                 break;
@@ -82,10 +84,10 @@ public class ControladorPrestamo extends HttpServlet {
                 break;
             
             case "modifAction":
-                resul = setModificarPrestamo(request, m, mensajes);
+                resul = setModificarPago(request, m, mensajes);
                 if (resul == 1){
-                    mensajeTitulo = "Préstamo Modificado!";
-                    mensaje = "El préstamo ha sido modificado.";
+                    mensajeTitulo = "Pago Modificado!";
+                    mensaje = "El pago ha sido modificado.";
                     estado = "SUCCESS";
                 }else if (resul == 2){
                     request.setAttribute("mensajes", mensajes);
@@ -93,31 +95,32 @@ public class ControladorPrestamo extends HttpServlet {
                     vista.forward(request, response);
                 }else{
                     mensajeTitulo = "Error";
-                    mensaje = "Hubo un error al intentar agregar el préstamo al sistema. Intente nuevamente. ";
+                    mensaje = "Hubo un error al intentar agregar el pago al sistema. Intente nuevamente. ";
                     estado = "ERROR";
                 }
                 break;
                 
             case "modif":
-                prestamo = this.getPrestamoByNroLegajoRequestParam();
+                pago = this.getPagoByNroLegajoRequestParam();
                 
                 request.setAttribute("formEnabled", true);
-                request.setAttribute("prestamo", prestamo);
+                request.setAttribute("pago", pago);
                 request.setAttribute("method", "modifAction");
 
-                vista = request.getRequestDispatcher("screens/prestamo/formPrestamo.jsp");
+                vista = request.getRequestDispatcher("screens/pago/formPago.jsp");
                 vista.forward(request, response);
                 break;
             
             case "consulta":
-                prestamo = this.getPrestamoByNroLegajoRequestParam();
+                pago = this.getPagoByNroLegajoRequestParam();
                 
                 request.setAttribute("formEnabled", false);
-                request.setAttribute("prestamo", prestamo);
+                request.setAttribute("pago", pago);
                 request.setAttribute("method", "consulta");
 
-                vista = request.getRequestDispatcher("screens/prestamo/formPrestamo.jsp");
-                vista.forward(request, response);    
+                vista = request.getRequestDispatcher("screens/pago/formPago.jsp");
+                vista.forward(request, response);
+                                
                 break;
         }
         
@@ -128,7 +131,7 @@ public class ControladorPrestamo extends HttpServlet {
         vista = request.getRequestDispatcher("screens/vistaMensaje.jsp");
         vista.forward(request, response);
     }
-
+    
     // ----- funciones de validacion -----
     public static boolean isNumeric(String str){
         for (char c : str.toCharArray())
@@ -136,11 +139,6 @@ public class ControladorPrestamo extends HttpServlet {
             if (!Character.isDigit(c)) return false;
         }
         return true;
-    }
-    
-    public boolean isAlpha(String name) {
-        //return name.matches("[a-zA-Z ]+");
-        return name.matches("[a-zA-Zäáàëéèíìöóòúùñç  .]+");
     }
     
     public boolean validateDate(String date) {
@@ -154,106 +152,100 @@ public class ControladorPrestamo extends HttpServlet {
         }
     }
     
-    private Prestamo getPrestamoByNroLegajoRequestParam(){
-        String nroLegajo = request.getParameter("nroLegajo");
-        String codRecurso = request.getParameter("codRecurso");
-        m.cargaArrayPrestamo();
-        Prestamo prestamo = m.getPrestamoWithCode(nroLegajo, codRecurso);
+    private Pago getPagoByNroLegajoRequestParam(){
+        String pagoNroLegajo = request.getParameter("pagoNroLegajo");
+        String pagoCodCurso = request.getParameter("pagoCodCurso");
+        m.cargaArrayPago();
+        Pago pago = m.getPagoWithCode(pagoNroLegajo, pagoCodCurso);
         
-        return prestamo;
+        return pago;
     }
     
-    private int setAltaPrestamo(HttpServletRequest request, Modelo m, ArrayList<String> mensajes){
-        String nroLegajo = request.getParameter("nroLegajo");
-        String codRecurso = request.getParameter("codRecurso");
-        String fechaPrestamo = request.getParameter("fechaPrestamo");
-        String fechaPrevistaDevolucion = request.getParameter("fechaPrevistaDevolucion");
-        String fechaDevolucion = request.getParameter("fechaDevolucion");
-
-        mensajes.addAll(validar(nroLegajo, codRecurso, fechaPrestamo, fechaPrevistaDevolucion, fechaDevolucion));
+    private int setAltaPago(HttpServletRequest request, Modelo m, ArrayList<String> mensajes){
+        String pagoNroLegajo = request.getParameter("pagoNroLegajo");
+        String pagoCodCurso = request.getParameter("pagoCodCurso");
+        String pagoFecha = request.getParameter("pagoFecha");
+        String pagoImporte = request.getParameter("pagoImporte");
+        String pagoComprobante = request.getParameter("pagoComprobante");
+        
+        mensajes.addAll(validar(pagoNroLegajo, pagoCodCurso, pagoFecha, pagoImporte, pagoComprobante));
         
         if (mensajes.size() > 0){
             return 2;
         }else{
-            return m.qryAltaPrestamo(nroLegajo, codRecurso, fechaPrestamo, fechaPrevistaDevolucion, fechaDevolucion);
+            return m.qryAltaPago(pagoNroLegajo, pagoCodCurso, pagoFecha, pagoImporte, pagoComprobante);
         }
     }
     
-    private int setModificarPrestamo(HttpServletRequest request, Modelo m, ArrayList<String> mensajes){
-        String nroLegajo = request.getParameter("nroLegajo");
-        String codRecurso = request.getParameter("codRecurso");
-        String fechaPrestamo = request.getParameter("fechaPrestamo");
-        String fechaPrevistaDevolucion = request.getParameter("fechaPrevistaDevolucion");
-        String fechaDevolucion = request.getParameter("fechaDevolucion");
-
-        mensajes.addAll(validar(nroLegajo, codRecurso, fechaPrestamo, fechaPrevistaDevolucion, fechaDevolucion));
-        
-        if (mensajes.size() > 0){
-            return 2;
-        }else{
-            return m.qryModificarPrestamo(nroLegajo, codRecurso, fechaPrestamo, fechaPrevistaDevolucion, fechaDevolucion);
-        }
-    }
-
-    private ArrayList<String> validar(String nroLegajo, String codRecurso, String fechaPrestamo, String fechaPrevistaDevolucion, String fechaDevolucion){
+    private ArrayList<String> validar(String pagoNroLegajo, String pagoCodCurso, String pagoFecha, String pagoImporte, String pagoComprobante){
         
         boolean validacion = true;
         ArrayList<String> mensajes = new ArrayList<String>();
-
-        if(nroLegajo.isEmpty()){ 
-                validacion = false;
-                mensajes.add("Nro Legajo : Campo Vacío.");
+        
+        if(pagoNroLegajo.isEmpty()){ 
+            validacion = false;
+            mensajes.add("Nro Legajo : Campo Vacío.");
         }else{
-            if(nroLegajo.length() > 10){
+            if(pagoNroLegajo.length() > 10){
                 validacion = false;
                 mensajes.add("Nro Legajo : Cant de dígitos necesarios = 4");
             }else{
-                if(!isNumeric(nroLegajo)){
+                if(!isNumeric(pagoNroLegajo)){
                     validacion = false;
                     mensajes.add("Nro Legajo : Inserte solo dígitos numéricos.");
                 }
             }
         }
-        if(codRecurso.isEmpty()){ 
-                validacion = false;
-                mensajes.add("Cod Recurso : Campo Vacío.");
+        if(pagoCodCurso.isEmpty()){ 
+            validacion = false;
+            mensajes.add("Cod Curso : Campo Vacío.");
         }else{
-            
-        }
-        if(fechaPrestamo.isEmpty()){ 
+            if(pagoCodCurso.length() > 8){
                 validacion = false;
-                mensajes.add("Fecha Prestamo : Campo Vacío.");
-        }else{
-            if(!validateDate(fechaPrestamo)){
-                validacion = false;
-                mensajes.add("Fecha Prestamo: Formato Incorrecto.");
+                mensajes.add("Cod Curso : Cant de dígitos necesarios = 4");
+            }else{
+                if(!isNumeric(pagoCodCurso)){
+                    validacion = false;
+                    mensajes.add("Cod Curso : Inserte solo dígitos numéricos.");
+                }
             }
         }
-        if(fechaPrevistaDevolucion.isEmpty()){ 
-                validacion = false;
-                mensajes.add("Fecha Prevista Devolución : Campo Vacío.");
+        if(pagoFecha.isEmpty()){ 
+            validacion = false;
+            mensajes.add("Fecha : Campo Vacío.");
         }else{
-            if(!validateDate(fechaPrevistaDevolucion)){
+            if(!validateDate(pagoFecha)){
                 validacion = false;
-                mensajes.add("Fecha Prevista Devolución: Formato Incorrecto.");
+                mensajes.add("Fecha : Formato Incorrecto.");
             }
         }
-        
-        if (!fechaDevolucion.isEmpty()){
-            if(!validateDate(fechaDevolucion)){
-                validacion = false;
-                mensajes.add("Fecha Devolucion: Formato Incorrecto.");
-            }
-        }else{
-            fechaDevolucion = null;
+        if(pagoImporte.isEmpty()){
+            validacion = false;
         }
-        
-        //if(fechaDevolucion.isEmpty()){
-        //    validacion = false;
-        //}
+        if(pagoComprobante.isEmpty()){ 
+            validacion = false;
+            mensajes.add("Comprobante : Campo Vacío.");
+        }else{
+        }
 
         return mensajes;
+    }
+    
+    
+    private int setModificarPago(HttpServletRequest request, Modelo m, ArrayList<String> mensajes){
+        String pagoNroLegajo = request.getParameter("pagoNroLegajo");
+        String pagoCodCurso = request.getParameter("pagoCodCurso");
+        String pagoFecha = request.getParameter("pagoFecha");
+        String pagoImporte = request.getParameter("pagoImporte");
+        String pagoComprobante = request.getParameter("pagoComprobante");
 
+        mensajes.addAll(validar(pagoNroLegajo, pagoCodCurso, pagoFecha, pagoImporte, pagoComprobante));
+        
+        if (mensajes.size() > 0){
+            return 2;
+        }else{
+            return m.qryModificarPago(pagoNroLegajo, pagoCodCurso, pagoFecha, pagoImporte, pagoComprobante);
+        }
     }
 
     /**

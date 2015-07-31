@@ -1,3 +1,5 @@
+package school;
+
 public class Curso {
     private String cursoCod;
     private String cursoNombre;

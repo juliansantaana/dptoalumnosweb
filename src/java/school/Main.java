@@ -1,3 +1,5 @@
+package school;
+
 import javax.swing.JOptionPane;
 
 public class Main {

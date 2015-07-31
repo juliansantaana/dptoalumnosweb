@@ -34,7 +34,7 @@
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="codRecurso">Código de Recurso</label>  
                   <div class="col-md-4">
-                      <input <c:if test="${formEnabled eq 'false'}"> disabled="true" </c:if> value="${recurso.codRecurso}" id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md" required="">
+                      <input <c:if test="${formEnabled eq 'false'}"> disabled="true" </c:if> value="${recurso.codRecurso}" id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md" required="" readonly>
 
                   </div>
                 </div>

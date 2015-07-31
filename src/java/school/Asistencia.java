@@ -1,3 +1,5 @@
+package school;
+
 public class Asistencia {
 
     private String nroLegajo;

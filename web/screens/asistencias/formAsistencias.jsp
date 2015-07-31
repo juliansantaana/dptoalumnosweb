@@ -12,6 +12,7 @@
     </head>
     <body>
         <%@include file='/templates/header_body.jsp'%>
+        <%@page import="school.Modelo" %>
         
         <div class="container">
         <div class="col-md-6 col-md-offset-3">  
@@ -26,7 +27,20 @@
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="codAsistencias">Código de Curso</label>  
                   <div class="col-md-4">
-                    <input id="codCurso" name="codCurso" type="text" placeholder="" class="form-control input-md" required="">
+                    <!-- <input id="codCurso" name="codCurso" type="text" placeholder="" class="form-control input-md" required="">-->
+                      <select name="codCurso" id="codCurso" class="form-control" required="">
+<%   
+    Modelo m = new Modelo();
+    m.cargaArrayCurso();
+    
+    for (int i=0; i< m.getCantCursos(); i++){
+%>
+<option value="<%= m.getCurso(i).getCursoCod() %>"><%= m.getCurso(i).getCursoNombre()%></option>
+<%
+}
+%>
+    
+                      </select>
                   </div>
                 </div>
                   

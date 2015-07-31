@@ -1,3 +1,5 @@
+package school;
+
 public class Prestamo {
     private String nroLegajo;
     private String codRecurso;

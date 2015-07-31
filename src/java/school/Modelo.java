@@ -1,3 +1,5 @@
+package school;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -54,6 +56,10 @@ public final class Modelo {
         }
         
         return db;
+    }
+
+    public ArrayList<Alumno> getArrayAlumnos() {
+        return arrayAlumnos;
     }
     
     public Statement statementSQL(Connection db){

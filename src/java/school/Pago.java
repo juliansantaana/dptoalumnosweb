@@ -1,3 +1,5 @@
+package school;
+
 public class Pago {
     private String pagoNroLegajo;
     private String pagoCodCurso;
