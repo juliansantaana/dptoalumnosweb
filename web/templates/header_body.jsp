@@ -29,6 +29,7 @@
             <li><a href="screens/curso/consultaCurso.jsp?method=consulta">Consulta</a></li>
             <li><a href="screens/curso/consultaCurso.jsp?method=baja">Eliminar</a></li>
             <li><a href="screens/asistencias/formAsistencias.jsp">Asistencias</a></li>
+            <li><a href="screens/curso/agregarAlumnoACurso.jsp">Agregar Alumno</a></li>
           </ul>
         </li>
         <li class="dropdown">

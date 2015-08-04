@@ -334,7 +334,13 @@ public class ControladorAlumno extends HttpServlet {
             return m.qryModificarAlumno(nroLegajo, nombre, apellido, fechaNacimiento, nroDoc, calle, nroCalle, piso, dpto, codPostal, localidad, telFijo, telCel, eMail);
         }
     }
-
+    
+    public static ArrayList<Alumno> GetAlumnos(){
+        Modelo mod = new Modelo();
+        mod.cargaArrayAlumno(null, null, null, null);
+        return mod.getArrayAlumnos();
+    }
+    
     /**
      * Returns a short description of the servlet.
      *

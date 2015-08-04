@@ -1233,6 +1233,10 @@ public final class Modelo {
         return arrayAsistencias;
     }
     
+    public ArrayList<Alumno> getArrayAlumnos() {
+        return arrayAlumnos;
+    }
+    
     
       // Devuelve tamaño de array 
     public int getCantAlumnos() {

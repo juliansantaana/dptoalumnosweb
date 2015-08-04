@@ -134,6 +134,28 @@ public class ControladorCurso extends HttpServlet {
                                 
                 break;
             
+            case "agregarAlumno":
+                String codCurso = request.getParameter("codCurso");
+                String nroLegajo = request.getParameter("nroLegajo");
+                
+                resul = m.qryAgregarAlumnoACurso(codCurso, nroLegajo);
+                
+                if (resul == 1){
+                    mensajeTitulo = "Alumno agregado!";
+                    mensaje = "El alumno ha sido agregado.";
+                    estado = "SUCCESS";
+                }else if (resul == 2){
+                    request.setAttribute("mensajes", mensajes);
+                    vista = request.getRequestDispatcher("screens/vistaValidacion.jsp");
+                    vista.forward(request, response);
+                }else{
+                    mensajeTitulo = "Error";
+                    mensaje = "Hubo un error al intentar agregar el alumno al curso. Intente nuevamente. ";
+                    estado = "ERROR";
+                }
+                
+                break;
+                
         }
         
         request.setAttribute("mensajeTitulo", mensajeTitulo);
