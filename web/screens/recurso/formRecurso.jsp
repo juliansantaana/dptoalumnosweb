@@ -34,8 +34,14 @@
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="codRecurso">Código de Recurso</label>  
                   <div class="col-md-4">
-                      <input <c:if test="${formEnabled eq 'false'}"> disabled="true" </c:if> value="${recurso.codRecurso}" id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md" required="" readonly>
-
+                      <c:choose>
+                        <c:when test="${empty method}">
+                            <input value="${recurso.codRecurso}" id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md" required="">
+                        </c:when>
+                        <c:otherwise>
+                            <input readonly="readonly" value="${recurso.codRecurso}" id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md" required="">
+                        </c:otherwise>  
+                      </c:choose>
                   </div>
                 </div>
                       

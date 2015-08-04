@@ -35,20 +35,14 @@
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="nroLegajo">Usuario</label>  
                   <div class="col-md-4">
-                      <!--<input <c:if test="${formEnabled eq 'false'}"> disabled="true" </c:if> value="${prestamo.nroLegajo}" id="nroLegajo" name="nroLegajo" type="text" placeholder="" class="form-control input-md" required="">-->
-                      <select name="nroLegajo" id="nroLegajo" class="form-control" required="">
-<%   
-    Modelo m = new Modelo();
-    m.cargaArrayAlumno(null, null, null, null);
-    
-    for (int i=0; i< m.getCantAlumnos(); i++){
-%>
-<option value="<%= m.getAlumno(i).getNroLegajo() %>"><%= m.getAlumno(i).getApellido() + ", " + m.getAlumno(i).getNombre() %></option>
-<%
-}
-%>
-    
-                      </select>
+                      <c:choose>
+                        <c:when test="${empty method}">
+                            <input value="${prestamo.nroLegajo}" id="nroLegajo" name="nroLegajo" type="text" placeholder="" class="form-control input-md" required="">
+                        </c:when>
+                        <c:otherwise>
+                            <input readonly="readonly" value="${prestamo.nroLegajo}" id="nroLegajo" name="nroLegajo" type="text" placeholder="" class="form-control input-md" required="">
+                        </c:otherwise>
+                      </c:choose>
                   </div>
                 </div>
 
@@ -56,19 +50,14 @@
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="codRecurso">Código de Recurso</label>  
                   <div class="col-md-4">
-                  <!--<input <c:if test="${formEnabled eq 'false'}"> disabled="true" </c:if> value="${prestamo.codRecurso}" id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md">-->
-                  <select name="codRecurso" id="codRecurso" class="form-control" required="">
-<%   
-    m.cargaArrayRecurso();
-    
-    for (int i=0; i< m.getCantRecursos(); i++){
-%>
-<option value="<%= m.getRecurso(i).getCodRecurso() %>"><%= m.getRecurso(i).getNombre() %></option>
-<%
-}
-%>
-    
-                      </select>
+                      <c:choose>
+                        <c:when test="${empty method}">
+                            <input value="${prestamo.codRecurso}" id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md">
+                        </c:when>
+                        <c:otherwise>
+                            <input readonly="readonly" value="${prestamo.codRecurso}" id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md">
+                        </c:otherwise>
+                      </c:choose>
                   </div>
                 </div>
 
