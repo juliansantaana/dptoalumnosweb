@@ -27,9 +27,9 @@
                     <div class="form-group">
                       <label class="col-md-4 control-label" for="codCurso">Código de Curso</label>  
                       <div class="col-md-6">
-                      <!-- <input id="codCurso" name="codCurso" type="text" placeholder="" class="form-control input-md" required="">-->
+                      <!--<input id="codCurso" name="codCurso" type="text" placeholder="" class="form-control input-md" required="">-->
                       <select name="codCurso" id="codCurso" class="form-control" required="">
-                      <%   
+<%   
     Modelo m = new Modelo();
     m.cargaArrayCurso();
     

@@ -25,7 +25,7 @@
 
                     <!-- Text input-->
                     <div class="form-group">
-                      <label class="col-md-4 control-label" for="mes">Nro Legajo</label>  
+                      <label class="col-md-6 control-label" for="mes">Nro Legajo</label>  
                       <div class="col-md-6">
                       <!--<input id="nroLegajo" name="nroLegajo" type="text" placeholder="" class="form-control input-md" required="">-->
                       <select name="nroLegajo" id="nroLegajo" class="form-control" required="">
