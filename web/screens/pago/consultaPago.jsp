@@ -12,6 +12,7 @@
     </head>
     <body>
         <%@include file='/templates/header_body.jsp'%>
+        <%@page import="school.Modelo" %>
         
         <div class="container">
             <div class="col-md-4 col-md-offset-4">  
@@ -20,21 +21,44 @@
                     <fieldset>
 
                     <!-- Form Name -->
-                    <legend>Curso</legend>
+                    <legend>Pago</legend>
 
                     <!-- Text input-->
                     <div class="form-group">
                       <label class="col-md-4 control-label" for="pagoNroLegajo">Nro de Legajo</label>  
-                      <div class="col-md-4">
-                      <input id="nroLegajo" name="pagoNroLegajo" type="text" placeholder="" class="form-control input-md" required="">
+                      <div class="col-md-6">
+                      <select name="pagoNroLegajo" id="nroLegajo" class="form-control" required="">
+<%   
+    Modelo m = new Modelo();
+    m.cargaArrayAlumno(null, null, null, null);
+    
+    for (int i=0; i< m.getArrayAlumnos().size(); i++){
+%>
+    <option value="<%= m.getAlumno(i).getNroLegajo() %>"><%= m.getAlumno(i).getApellido() + ", "  + m.getAlumno(i).getNombre()%></option>
+<%
+}
+%>
+    
+                      </select>
                       </div>
                     </div>
                     
                     <!-- Text input-->
                     <div class="form-group">
                       <label class="col-md-4 control-label" for="pagoCodCurso">Código de Curso</label>  
-                      <div class="col-md-4">
-                      <input id="nroLegajo" name="pagoCodCurso" type="text" placeholder="" class="form-control input-md" required="">
+                      <div class="col-md-6">
+                      <select name="pagoCodCurso" id="codCurso" class="form-control" required="">
+<%   
+    m.cargaArrayCurso();
+    
+    for (int i=0; i< m.getCantCursos(); i++){
+%>
+<option value="<%= m.getCurso(i).getCursoCod() %>"><%= m.getCurso(i).getCursoNombre()%></option>
+<%
+}
+%>
+    
+                      </select>
                       </div>
                     </div>
 
