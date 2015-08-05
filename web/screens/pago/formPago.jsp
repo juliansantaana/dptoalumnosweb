@@ -12,6 +12,7 @@
     </head>
     <body>
         <%@include file='/templates/header_body.jsp'%>
+        <%@page import="school.Modelo" %>
         
         <div class="container">
         <div class="col-md-6 col-md-offset-3">  
@@ -36,7 +37,20 @@
                   <div class="col-md-4">
                       <c:choose>
                         <c:when test="${empty method}">
-                            <input value="${curso.cursoCod}" id="codCurso" name="pagoNroLegajo" type="text" placeholder="" class="form-control input-md" required="">
+                            <!-- <input id="nroLegajo" name="pagoNroLegajo" type="text" placeholder="" class="form-control input-md" required=""> -->
+                            <select name="pagoNroLegajo" id="nroLegajo" class="form-control" required="">
+<%   
+    Modelo m = new Modelo();
+    m.cargaArrayAlumno(null, null, null, null);
+    
+    for (int i=0; i< m.getArrayAlumnos().size(); i++){
+%>
+    <option value="<%= m.getAlumno(i).getNroLegajo() %>"><%= m.getAlumno(i).getApellido() + ", "  + m.getAlumno(i).getNombre()%></option>
+<%
+}
+%>
+    
+                      </select>
                         </c:when>
                         <c:otherwise>
                             <input readonly="readonly" value="${pago.pagoNroLegajo}" id="pagoNroLegajo" name="pagoNroLegajo" type="text" placeholder="" class="form-control input-md" required="">
@@ -50,7 +64,20 @@
                   <div class="col-md-4">
                       <c:choose>
                         <c:when test="${empty method}">
-                            <input value="${curso.cursoCod}" id="pagoCodCurso" name="pagoCodCurso" type="text" placeholder="" class="form-control input-md" required="">
+                            <!-- <input value="${curso.cursoCod}" id="pagoCodCurso" name="pagoCodCurso" type="text" placeholder="" class="form-control input-md" required="">-->
+                            <select name="pagoCodCurso" id="codCurso" class="form-control" required="">
+<%   
+    Modelo m1 = new Modelo();
+    m1.cargaArrayCurso();
+    
+    for (int i=0; i< m1.getCantCursos(); i++){
+%>
+<option value="<%= m1.getCurso(i).getCursoCod() %>"><%= m1.getCurso(i).getCursoNombre()%></option>
+<%
+}
+%>
+    
+                      </select>
                         </c:when>
                         <c:otherwise>
                             <input readonly="readonly" value="${pago.pagoCodCurso}" id="pagoCodCurso" name="pagoCodCurso" type="text" placeholder="" class="form-control input-md" required="">
