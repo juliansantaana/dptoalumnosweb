@@ -939,6 +939,7 @@ public final class Modelo {
         t.getColumns().add(new ReportTableColumn("Nombre"));
         t.getColumns().add(new ReportTableColumn("Apellido"));
         t.getColumns().add(new ReportTableColumn("Código de Curso"));
+        t.getColumns().add(new ReportTableColumn("Nombre Curso"));
         t.getColumns().add(new ReportTableColumn("Fecha"));
         t.getColumns().add(new ReportTableColumn("Importe"));
         t.getColumns().add(new ReportTableColumn("Comprobante"));
@@ -956,6 +957,7 @@ public final class Modelo {
                 r.getValues().add(rs.getString(5));
                 r.getValues().add(rs.getString(6));
                 r.getValues().add(rs.getString(7));
+                r.getValues().add(rs.getString(8));
 
                 t.getRows().add(r);
             }
