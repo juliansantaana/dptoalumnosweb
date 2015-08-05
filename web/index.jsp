@@ -17,7 +17,6 @@
             <div class="jumbotron">
               <h1>Departamento de Alumnos</h1>
               <p class="lead">Bienvenido al sistema de Administración de Alumnos v1.0</p>
-              <p><a class="btn btn-lg btn-success" href="#" role="button">Comenzar</a></p>
             </div>
 
             <footer class="footer">
