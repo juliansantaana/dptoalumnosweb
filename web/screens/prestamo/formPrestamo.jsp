@@ -33,11 +33,24 @@
 
                 <!-- Text input-->
                 <div class="form-group">
-                  <label class="col-md-4 control-label" for="nroLegajo">Usuario</label>  
+                  <label class="col-md-4 control-label" for="nroLegajo">Nro Legajo</label>  
                   <div class="col-md-4">
                       <c:choose>
                         <c:when test="${empty method}">
-                            <input value="${prestamo.nroLegajo}" id="nroLegajo" name="nroLegajo" type="text" placeholder="" class="form-control input-md" required="">
+                            <!-- <input value="${prestamo.nroLegajo}" id="nroLegajo" name="nroLegajo" type="text" placeholder="" class="form-control input-md" required=""> -->
+                            <select name="nroLegajo" id="nroLegajo" class="form-control" required="">
+<%   
+    Modelo m = new Modelo();
+    m.cargaArrayAlumno(null, null, null, null);
+    
+    for (int i=0; i< m.getArrayAlumnos().size(); i++){
+%>
+    <option value="<%= m.getAlumno(i).getNroLegajo() %>"><%= m.getAlumno(i).getApellido() + ", "  + m.getAlumno(i).getNombre()%></option>
+<%
+}
+%>
+    
+                      </select>
                         </c:when>
                         <c:otherwise>
                             <input readonly="readonly" value="${prestamo.nroLegajo}" id="nroLegajo" name="nroLegajo" type="text" placeholder="" class="form-control input-md" required="">
@@ -52,7 +65,20 @@
                   <div class="col-md-4">
                       <c:choose>
                         <c:when test="${empty method}">
-                            <input value="${prestamo.codRecurso}" id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md">
+                            <!-- <input value="${prestamo.codRecurso}" id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md"> -->
+                            <select name="codRecurso" id="codRecurso" class="form-control" required="">
+<%   
+    Modelo m1 = new Modelo();
+    m1.cargaArrayRecurso();
+    
+    for (int i=0; i< m1.getCantRecursos(); i++){
+%>
+<option value="<%= m1.getRecurso(i).getCodRecurso() %>"><%= m1.getRecurso(i).getNombre() %></option>
+<%
+}
+%>
+    
+                            </select>
                         </c:when>
                         <c:otherwise>
                             <input readonly="readonly" value="${prestamo.codRecurso}" id="codRecurso" name="codRecurso" type="text" placeholder="" class="form-control input-md">
