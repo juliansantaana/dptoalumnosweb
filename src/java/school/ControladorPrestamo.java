@@ -190,8 +190,9 @@ public class ControladorPrestamo extends HttpServlet {
         String fechaPrestamo = request.getParameter("fechaPrestamo");
         String fechaPrevistaDevolucion = request.getParameter("fechaPrevistaDevolucion");
         String fechaDevolucion = request.getParameter("fechaDevolucion");
-
+        
         mensajes.addAll(validar(nroLegajo, codRecurso, fechaPrestamo, fechaPrevistaDevolucion, fechaDevolucion));
+        fechaDevolucion = fechaDevolucion.isEmpty() ? null : fechaDevolucion;
         
         if (mensajes.size() > 0){
             return 2;
@@ -209,6 +210,7 @@ public class ControladorPrestamo extends HttpServlet {
         String fechaDevolucion = request.getParameter("fechaDevolucion");
 
         mensajes.addAll(validar(nroLegajo, codRecurso, fechaPrestamo, fechaPrevistaDevolucion, fechaDevolucion));
+        fechaDevolucion = fechaDevolucion.isEmpty() ? null : fechaDevolucion;
         
         if (mensajes.size() > 0){
             return 2;
