@@ -1,6 +1,7 @@
 package school;
 
 public class Prestamo {
+    private int id;
     private String nroLegajo;
     private String codRecurso;
     private String fechaPrestamo;
@@ -13,6 +14,14 @@ public class Prestamo {
         fechaPrestamo = "";
         fechaPrevistaDevolucion = "";
         fechaDevolucion = "";
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNroLegajo() {

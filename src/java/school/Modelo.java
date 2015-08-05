@@ -687,7 +687,7 @@ public final class Modelo {
         return q;
     }
     
-    public int qryModificarPrestamo(String nroLegajo , String codRec , String fechaPres , String fechaPrevDevo , String fechaDevo){
+    public int qryModificarPrestamo(int id, String nroLegajo , String codRec , String fechaPres , String fechaPrevDevo , String fechaDevo){
         String qry;
         qry = "UPDATE prestamos SET "
                 + "nroLegajo = " + "'"+nroLegajo+"' "
@@ -695,7 +695,7 @@ public final class Modelo {
                 + ", fechaPres = " + "'"+fechaPres+"' "
                 + ", fechaPrevDevo = " + "'"+fechaPrevDevo+"' "
                 + ((fechaDevo != null) ? ", fechaDevo = " + "'"+fechaDevo+"' " : "");
-        qry += "WHERE nroLegajo = " + nroLegajo +" AND codRecurso = '" + codRec + "'";
+        qry += "WHERE id = " + id;
         
         openDBConnection();
         int q = executeUpdate(qry);
@@ -703,7 +703,7 @@ public final class Modelo {
         return q;
     }
     
-    public int qryModificarPago(String nroLegajo , String codCurso , String fecha , String importe , String comprobante){
+    public int qryModificarPago(int id, String nroLegajo , String codCurso , String fecha , String importe , String comprobante){
         String qry;
         qry = "UPDATE pagos SET "
                 + "nroLegajo = " + "'"+nroLegajo+"' "
@@ -711,7 +711,7 @@ public final class Modelo {
                 + ", fecha = " + "'"+fecha+"' "
                 + ", importe = " +importe+" "
                 + ", comprobante = " + "'"+comprobante+"' ";
-        qry += "WHERE nroLegajo = " + nroLegajo +" AND codCurso = " + codCurso;
+        qry += "WHERE id = " + id;
         
         openDBConnection();
         int q = executeUpdate(qry);
@@ -719,10 +719,10 @@ public final class Modelo {
         return q;
     }
     
-    public int qryEliminarPago(String nroLegajo , String codCurso){
+    public int qryEliminarPago(int id ){
         String qry;
         qry = "DELETE FROM pagos ";
-        qry += "WHERE nroLegajo = " + nroLegajo +" AND codCurso = " + codCurso;
+        qry += "WHERE id = " + id;
         
         openDBConnection();
         int q = executeUpdate(qry);
@@ -1219,6 +1219,29 @@ public final class Modelo {
         return null;
     }
     
+    public Prestamo getPrestamoWithId(int id ){
+        for (int i = 0; i < getCantPrestamos(); i++){
+            if (getPrestamo(i).getId() == id){
+                System.out.println("Encuentra");
+                return getPrestamo(i);
+            }
+        }
+        return null;
+    }
+    
+    public ArrayList<Prestamo> getPrestamosWithCode(String nroLegajo, String codRecurso){
+        
+        ArrayList<Prestamo> arr_pres = new ArrayList<Prestamo>();
+        
+        for (int i = 0; i < getCantPrestamos(); i++){
+            if (getPrestamo(i).getCodRecurso().equals(codRecurso) && getPrestamo(i).getNroLegajo().equals(nroLegajo)){
+                System.out.println("Encuentra");
+                arr_pres.add(getPrestamo(i));
+            }
+        }
+        return arr_pres;
+    }
+    
     public Pago getPagoWithCode(String pagoNroLegajo, String pagoCodCurso){
         for (int i = 0; i < getCantPagos(); i++){
             if (getPago(i).getPagoNroLegajo().equals(pagoNroLegajo) && getPago(i).getPagoCodCurso().equals(pagoCodCurso)){
@@ -1227,6 +1250,29 @@ public final class Modelo {
             }
         }
         return null;
+    }
+    
+    public Pago getPagoWithId(int id){
+        for (int i = 0; i < getCantPagos(); i++){
+            if (getPago(i).getId() == id){
+                System.out.println("Encuentra");
+                return getPago(i);
+            }
+        }
+        return null;
+    }
+    
+    public ArrayList<Pago> getPagosWithCode(String pagoNroLegajo, String pagoCodCurso){
+        
+        ArrayList<Pago> arr_pago = new ArrayList<Pago>();
+        
+        for (int i = 0; i < getCantPagos(); i++){
+            if (getPago(i).getPagoNroLegajo().equals(pagoNroLegajo) && getPago(i).getPagoCodCurso().equals(pagoCodCurso)){
+                System.out.println("Encuentra");
+                arr_pago.add(getPago(i));
+            }
+        }
+        return arr_pago;
     }
     
     public Pago getPago(int i) { 

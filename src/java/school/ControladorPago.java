@@ -233,6 +233,7 @@ public class ControladorPago extends HttpServlet {
     
     
     private int setModificarPago(HttpServletRequest request, Modelo m, ArrayList<String> mensajes){
+        int id = Integer.parseInt(request.getParameter("id"));
         String pagoNroLegajo = request.getParameter("pagoNroLegajo");
         String pagoCodCurso = request.getParameter("pagoCodCurso");
         String pagoFecha = request.getParameter("pagoFecha");
@@ -244,7 +245,7 @@ public class ControladorPago extends HttpServlet {
         if (mensajes.size() > 0){
             return 2;
         }else{
-            return m.qryModificarPago(pagoNroLegajo, pagoCodCurso, pagoFecha, pagoImporte, pagoComprobante);
+            return m.qryModificarPago(id, pagoNroLegajo, pagoCodCurso, pagoFecha, pagoImporte, pagoComprobante);
         }
     }
 

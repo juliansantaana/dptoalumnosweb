@@ -182,6 +182,7 @@ public class ControladorPrestamo extends HttpServlet {
     }
     
     private int setModificarPrestamo(HttpServletRequest request, Modelo m, ArrayList<String> mensajes){
+        int id = Integer.parseInt(request.getParameter("id"));
         String nroLegajo = request.getParameter("nroLegajo");
         String codRecurso = request.getParameter("codRecurso");
         String fechaPrestamo = request.getParameter("fechaPrestamo");
@@ -193,7 +194,7 @@ public class ControladorPrestamo extends HttpServlet {
         if (mensajes.size() > 0){
             return 2;
         }else{
-            return m.qryModificarPrestamo(nroLegajo, codRecurso, fechaPrestamo, fechaPrevistaDevolucion, fechaDevolucion);
+            return m.qryModificarPrestamo(id, nroLegajo, codRecurso, fechaPrestamo, fechaPrevistaDevolucion, fechaDevolucion);
         }
     }
 

@@ -1,6 +1,7 @@
 package school;
 
 public class Pago {
+    private int id;
     private String pagoNroLegajo;
     private String pagoCodCurso;
     private String pagoFecha;
@@ -13,6 +14,14 @@ public class Pago {
         pagoFecha = "";
         pagoImporte = 0;
         pagoComprobante = "";
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setPagoNroLegajo(String pagoNroLegajo) {
