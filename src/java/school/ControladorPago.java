@@ -30,6 +30,7 @@ public class ControladorPago extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        doPost(request, response);
     }
 
     HttpServletRequest request;
@@ -101,7 +102,18 @@ public class ControladorPago extends HttpServlet {
                 break;
                 
             case "modif":
-                pago = this.getPagoByNroLegajoRequestParam();
+            case "consulta":
+                ArrayList<Pago> pagos = this.getPagosByNroLegajoRequestParam();
+                
+                request.setAttribute("pagos", pagos);
+                request.setAttribute("method", method + "Id");
+
+                vista = request.getRequestDispatcher("screens/pago/formTable.jsp");
+                vista.forward(request, response);
+                break;
+            
+            case "modifId":
+                pago = this.getPagoByIdRequestParam();
                 
                 request.setAttribute("formEnabled", true);
                 request.setAttribute("pago", pago);
@@ -109,10 +121,11 @@ public class ControladorPago extends HttpServlet {
 
                 vista = request.getRequestDispatcher("screens/pago/formPago.jsp");
                 vista.forward(request, response);
+                                
                 break;
-            
-            case "consulta":
-                pago = this.getPagoByNroLegajoRequestParam();
+                
+            case "consultaId":
+                pago = this.getPagoByIdRequestParam();
                 
                 request.setAttribute("formEnabled", false);
                 request.setAttribute("pago", pago);
@@ -152,12 +165,19 @@ public class ControladorPago extends HttpServlet {
         }
     }
     
-    private Pago getPagoByNroLegajoRequestParam(){
+    private ArrayList<Pago> getPagosByNroLegajoRequestParam(){
         String pagoNroLegajo = request.getParameter("pagoNroLegajo");
         String pagoCodCurso = request.getParameter("pagoCodCurso");
         m.cargaArrayPago();
-        Pago pago = m.getPagoWithCode(pagoNroLegajo, pagoCodCurso);
+        ArrayList<Pago> pagos = m.getPagosWithCode(pagoNroLegajo, pagoCodCurso);
         
+        return pagos;
+    }
+    
+    private Pago getPagoByIdRequestParam(){
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        m.cargaArrayPago();
+        Pago pago = m.getPagoWithId(id);
         return pago;
     }
     

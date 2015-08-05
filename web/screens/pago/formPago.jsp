@@ -25,7 +25,7 @@
                         <input type="hidden" name="method" value="${method}"/>
                     </c:otherwise>
                 </c:choose>
-                    
+                <input type="hidden" name="id" value="${pago.id}"/>
                 <fieldset>
 
                 <!-- Form Name -->
@@ -130,7 +130,7 @@
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="saveBtn"></label>
                   <div class="col-md-4">
-                      <a href="screens/curso/consultaPago.jsp?method=consulta" class="btn btn-primary">Atras</a>
+                      <a href="screens/pago/consultaPago.jsp?method=consulta" class="btn btn-primary">Atras</a>
                   </div>
                 </div>
                 </c:when>
@@ -138,7 +138,7 @@
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="saveBtn"></label>
                   <div class="col-md-4">
-                      <a href="screens/curso/consultaPago.jsp?method=baja" class="btn btn-primary">Eliminar</a>
+                      <a href="screens/pago/consultaPago.jsp?method=baja" class="btn btn-primary">Eliminar</a>
                   </div>
                 </div>
                 </c:when>
@@ -154,7 +154,7 @@
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="saveBtn"></label>
                   <div class="col-md-4">
-                      <a href="screens/curso/consultaPago.jsp?method=consulta" class="btn btn-primary">Atras</a>
+                      <a href="screens/pago/consultaPago.jsp?method=consulta" class="btn btn-primary">Atras</a>
                   </div>
                 </div>
                 </c:otherwise>

@@ -30,6 +30,7 @@ public class ControladorPrestamo extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        doPost(request, response);
     }
 
     HttpServletRequest request;
@@ -101,7 +102,18 @@ public class ControladorPrestamo extends HttpServlet {
                 break;
                 
             case "modif":
-                prestamo = this.getPrestamoByNroLegajoRequestParam();
+            case "consulta":
+                ArrayList<Prestamo> prestamos = this.getPrestamosByNroLegajoRequestParam();
+                
+                request.setAttribute("prestamos", prestamos);
+                request.setAttribute("method", method + "Id");
+
+                vista = request.getRequestDispatcher("screens/prestamo/formTable.jsp");
+                vista.forward(request, response);
+                break;
+            
+            case "modifId":
+                prestamo = this.getPrestamoByIdRequestParam();
                 
                 request.setAttribute("formEnabled", true);
                 request.setAttribute("prestamo", prestamo);
@@ -111,15 +123,15 @@ public class ControladorPrestamo extends HttpServlet {
                 vista.forward(request, response);
                 break;
             
-            case "consulta":
-                prestamo = this.getPrestamoByNroLegajoRequestParam();
+            case "consultaId":
+                prestamo = this.getPrestamoByIdRequestParam();
                 
                 request.setAttribute("formEnabled", false);
                 request.setAttribute("prestamo", prestamo);
                 request.setAttribute("method", "consulta");
 
                 vista = request.getRequestDispatcher("screens/prestamo/formPrestamo.jsp");
-                vista.forward(request, response);    
+                vista.forward(request, response);
                 break;
         }
         
@@ -156,12 +168,19 @@ public class ControladorPrestamo extends HttpServlet {
         }
     }
     
-    private Prestamo getPrestamoByNroLegajoRequestParam(){
+    private ArrayList<Prestamo> getPrestamosByNroLegajoRequestParam(){
         String nroLegajo = request.getParameter("nroLegajo");
         String codRecurso = request.getParameter("codRecurso");
         m.cargaArrayPrestamo();
-        Prestamo prestamo = m.getPrestamoWithCode(nroLegajo, codRecurso);
+        ArrayList<Prestamo> prestamos = m.getPrestamosWithCode(nroLegajo, codRecurso);
         
+        return prestamos;
+    }
+    
+    private Prestamo getPrestamoByIdRequestParam(){
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        m.cargaArrayPrestamo();
+        Prestamo prestamo = m.getPrestamoWithId(id);
         return prestamo;
     }
     

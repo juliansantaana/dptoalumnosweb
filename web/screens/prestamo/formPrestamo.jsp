@@ -25,7 +25,7 @@
                         <input type="hidden" name="method" value="${method}"/>
                     </c:otherwise>
                 </c:choose>
-                    
+                <input type="hidden" name="id" value="${prestamo.id}"/>
                 <fieldset>
 
                 <!-- Form Name -->

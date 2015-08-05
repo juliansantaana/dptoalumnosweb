@@ -197,11 +197,12 @@ public final class Modelo {
             rs = this.executeQuery(qry);
             while (rs.next()) {
                 Pago a = new Pago();
-                a.setPagoNroLegajo(rs.getString(1));
-                a.setPagoCodCurso(rs.getString(2));
-                a.setPagoFecha(rs.getString(3));
-                a.setPagoImporte(rs.getFloat(4));
-                a.setPagoComprobante(rs.getString(5));
+                a.setId(rs.getInt(1));
+                a.setPagoNroLegajo(rs.getString(2));
+                a.setPagoCodCurso(rs.getString(3));
+                a.setPagoFecha(rs.getString(4));
+                a.setPagoImporte(rs.getFloat(5));
+                a.setPagoComprobante(rs.getString(6));
               
                 arrayPagos.add(a);
             }
@@ -229,11 +230,12 @@ public final class Modelo {
             rs = this.executeQuery(qry);
             while (rs.next()) {
                 Prestamo a = new Prestamo();
-                a.setNroLegajo(rs.getString(1));
-                a.setCodRecurso(rs.getString(2));
-                a.setFechaPrestamo(rs.getString(3));
-                a.setFechaDevolucion(rs.getString(4));
-                a.setFechaPrevistaDevolucion(rs.getString(5));
+                a.setId(rs.getInt(1));
+                a.setNroLegajo(rs.getString(2));
+                a.setCodRecurso(rs.getString(3));
+                a.setFechaPrestamo(rs.getString(4));
+                a.setFechaDevolucion(rs.getString(5));
+                a.setFechaPrevistaDevolucion(rs.getString(6));
                 
                 arrayPrestamos.add(a);
             }
