@@ -67,7 +67,7 @@
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="fechaNacimiento">Fecha de Nacimiento</label>  
                   <div class="col-md-4">
-                  <input <c:if test="${formEnabled eq 'false'}"> disabled="true" </c:if> value="${alumno.fechaNacimiento}" id="fechaNacimiento" name="fechaNacimiento" type="text" placeholder="" class="form-control input-md">
+                  <input <c:if test="${formEnabled eq 'false'}"> disabled="true" </c:if> value="${alumno.fechaNacimiento}" id="fechaNacimiento" name="fechaNacimiento" type="text" placeholder="" class="form-control input-md datepicker">
 
                   </div>
                 </div>
@@ -205,5 +205,16 @@
         </div>
         
         <%@include file='/templates/footer_body.jsp'%>
+        <script>
+            $(document).ready(function(){
+                $( ".datepicker" ).datepicker({
+                    dateFormat : 'yy-mm-dd',
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1920:2015',
+                });
+            });
+        </script>
     </body>
+    
 </html>
